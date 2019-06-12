@@ -31,6 +31,9 @@ export default {
 			letter:''	
 		}
 	},
+	created:function () {
+        this.$emit('public_header', false);
+    },
 	methods: {
 		getCityInfo (){
 			axios.get('/api/city.json')

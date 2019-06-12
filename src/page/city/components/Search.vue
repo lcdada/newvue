@@ -13,7 +13,6 @@ export default {
     .search
         height .7rem
         background $bgColor
-        padding .1rem
         .search-input
             box-sizing border-box
             width 100%

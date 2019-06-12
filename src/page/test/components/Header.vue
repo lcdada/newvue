@@ -14,6 +14,6 @@ export default {
        display:flex
        height:.86rem
        background:$bgColor
-       color:#fff
+       color:red
        line-height:.86rem
 </style>
