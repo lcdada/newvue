@@ -12,9 +12,10 @@ import 'swiper/dist/css/swiper.css'
 import api from './api' // 导入api接口
 import 'babel-polyfill' //解决手机浏览器默认不支持promise。
 import DrawerLayout from 'vue-drawer-layout'
+import utils from './utils/utils'
 
 Vue.prototype.$api = api; // 将api挂载到vue的原型上
-
+Vue.prototype.$utils = utils
 
 Vue.config.productionTip = false
 fastClick.attach(document.body)

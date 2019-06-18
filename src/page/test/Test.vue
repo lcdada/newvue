@@ -11,13 +11,13 @@
 <script>
 import TestHeader from './components/Header'
 import TestList from './components/List'
-// import GoodsList from './components/GoodsLIst'
+import GoodsList from './components/GoodsLIst'
 export default {
     name:'Test',
     components:{
         TestHeader,
         TestList,
-        // GoodsList,
+        GoodsList,
     data() {
         return {
         activeKey: 0

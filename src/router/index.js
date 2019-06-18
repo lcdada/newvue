@@ -6,15 +6,29 @@ import Home from '@/page/home/Home'
 import City from '@/page/city/City'
 import Login from '@/page/login/Login'
 import Class from '@/page/class/Class'
-
-
-// import Detail from '@/page/detail/Detail'
+import Detail from '@/page/detail/Detail'
+import Cart from '@/page/cart/Cart'
 
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path:'/',
+      name:'HomePage',
+      component:HomePage,
+    },
+    {
+      path:'/detail',
+      name:'Detail',
+      component:Detail
+    },
+    {
+      path:'/cart',
+      name:'Cart',
+      component:Cart
+    },
     {
       path:'/test',
       name:'Test',
@@ -41,10 +55,6 @@ export default new Router({
       path:'/login',
       name:'Login',
       conponent:Login
-    },
-    {
-      path:'/',
-      component:HomePage,
     },
     {
       path:'/class',

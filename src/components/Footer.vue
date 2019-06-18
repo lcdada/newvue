@@ -38,7 +38,7 @@ export default {
                 normal: require('./../assets/img/notransferr.png'),
                 active: require('./../assets/img/transferr.png')
             },{
-                name:'home',
+                name:'cart',
                 title:'购物车',
                 normal: require('./../assets/img/nogoodscar.png'),
                 active: require('./../assets/img/goodscar.png')

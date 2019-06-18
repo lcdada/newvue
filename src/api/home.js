@@ -9,6 +9,9 @@ import qs from 'qs'; // 根据需求是否导入qs模块
 const home = {    
     getBless (params){
         return axios.post(`${base.home}/bless`,qs.stringify(params))
+    },
+    getGoodsList(params){
+        return axios.post(`${base.home}/goodsList`,qs.stringify(params))
     }
 }
 
