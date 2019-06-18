@@ -31,7 +31,10 @@ export default {
 				recommendList:[],
 				weekendList:[]
 			}
-		},
+	},
+	 created:function () {
+        this.$emit('public_header', false);
+    },
     methods: {
         getHomeInfo () {
             axios.get('/api/index.json')
@@ -56,6 +59,7 @@ export default {
     },
 }
 </script>
-<style scoped>
-   
+<style lang="stylus" scoped>
+
 </style>
+

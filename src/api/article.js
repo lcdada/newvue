@@ -17,15 +17,20 @@ const article = {
     //         params: params        
     //     });    
     // },
-    // // post提交    
+    // // post提交    ,,
     // login (params) {        
-    //     return axios.post(`${base.sq}/accesstoken`, qs.stringify(params));    
+    //     return axios.post(`${base.sq}/accesstoken`, qs.stringify(params));  
+    
+    //  qs.stringify({ 'params': 7758521 }, { indices: false })
     // }
     // 其他接口…………
 
-    goodslist (params){
-        return axios.post(`${base.bd}`,qs.stringify(params))
-    }
+    // goodslist (params){
+    //     return axios.post(`${base.bd}`,qs.stringify(params))
+    // },
+    // goodsdetials (params){
+    //     return axios.post(`${base.aaa}`,qs.stringify(params))
+    // }
 }
 
 export default article;

@@ -1,14 +1,43 @@
 <template>
   <div id="app">
-    <app-header v-if="header_show" class="header"></app-header>
-    <router-view v-on:public_header="public_header" v-on:public_footer="public_footer"></router-view>
-    <app-footer v-if="footer_show"></app-footer>
+    <vue-drawer-layout
+      ref="drawer"
+      :enable="true"
+      :animatable="true"
+      :z-index="0"
+      :drawable-distance="Math.floor(800/3)"
+      :content-drawable="true"
+      :backdrop="true"
+      :backdrop-opacity-range="[0,0.4]"
+      @mask-click="handleMaskClick"
+    >
+        <div class="drawer-content" slot="drawer">
+          <app-header v-if="header_show" class="header"></app-header>
+        </div>
+        <div slot="content"> 
+          <div class="header">
+             <van-nav-bar title="标题">
+                <van-icon name="bars" slot="left" @click="handleMaskClick"/>
+                <van-icon name="search" slot="right" />
+              </van-nav-bar>
+          </div>
+         
+          <keep-alive>
+            <router-view v-if="$route.meta.keepAlive" v-on:public_header="public_header" v-on:public_footer="public_footer"></router-view>
+          </keep-alive>
+            <router-view v-if="!$route.meta.keepAlive"></router-view>
+          <app-footer v-if="footer_show"></app-footer>
+        </div>
+    </vue-drawer-layout>
   </div>
 </template>
 
 <script>
 import AppHeader from './components/Header'
 import AppFooter from './components/Footer'
+import {DrawerLayout} from 'vue-drawer-layout'
+import {NavBar,Icon} from 'vant'
+
 export default {
   name: 'App',
   data () {
@@ -20,7 +49,10 @@ export default {
   },
   components:{
       AppHeader,
-      AppFooter
+      AppFooter,
+      [DrawerLayout.name]:DrawerLayout,
+      [NavBar.name]:NavBar,
+      [Icon.name]:Icon
   },
    methods:{
       //是否显示头部
@@ -30,13 +62,15 @@ export default {
       //是否显示底部
       public_footer:function (bool) {
           this.footer_show = bool;
-      }
+      },
+       handleMaskClick() { 
+        this.$refs.drawer.toggle();
+       }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-  .header
-    padding-bottom 0.92rem
+  
 </style>
 

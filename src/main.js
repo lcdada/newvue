@@ -10,6 +10,8 @@ import './assets/styles/border.css'
 import './assets/styles/iconfont.css'
 import 'swiper/dist/css/swiper.css'
 import api from './api' // 导入api接口
+import 'babel-polyfill' //解决手机浏览器默认不支持promise。
+import DrawerLayout from 'vue-drawer-layout'
 
 Vue.prototype.$api = api; // 将api挂载到vue的原型上
 
@@ -17,6 +19,7 @@ Vue.prototype.$api = api; // 将api挂载到vue的原型上
 Vue.config.productionTip = false
 fastClick.attach(document.body)
 Vue.use(VueAwesomeSwiper)
+Vue.use(DrawerLayout)
 
 new Vue({
   el: '#app',

@@ -1,21 +1,33 @@
 <template>
     <div>
         <test-header></test-header>
-        <test-list :weekend="weekendList"></test-list>
-        <test-goods-list></test-goods-list>
+        <keep-alive>
+            <test-list :weekend="weekendList" ></test-list>
+        </keep-alive>
+        <goods-list></goods-list>
        
     </div>
 </template>
 <script>
 import TestHeader from './components/Header'
 import TestList from './components/List'
-import TestGoodsList from './components/GoodsLIst'
+// import GoodsList from './components/GoodsLIst'
 export default {
     name:'Test',
     components:{
         TestHeader,
         TestList,
-        TestGoodsList,
+        // GoodsList,
+    data() {
+        return {
+        activeKey: 0
+        }
+    },
+     methods: {
+        onChange(key) {
+        this.activeKey = key;
+        }
+    }
     },
     data (){
         return {
@@ -35,21 +47,30 @@ export default {
                 if (res.ret && res.data) {
                     this.weekendList = res.data.weekendList
                 }
-                console.log(res)  
             })    
-        },
-        getGoods () {
-            this.$api.article.goodslist({
-                package_id:525,
-                pageindex:3
-            }).then(params => {
-                console.log(params)
-            })
         }
+        // getGoods () {
+        //     // let params = {
+        //     //     package_id :530,
+        //     // }
+        //     this.$api.article.goodslist({
+        //         package_id:530,
+        //         pageindex:3
+        //     }).then(params => {
+                
+        //     })
+        // },
+        // goodsdetial () {
+        //     this.$api.article.goodsdetials({
+               
+        //     }).then(params => {
+        //     })
+        // }
     },
      mounted () {
          this.onLoad()
         //  this.getGoods()
+        //  this.goodsdetial()  
     },  
 }
 </script>

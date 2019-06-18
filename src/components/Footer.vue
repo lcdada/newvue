@@ -27,13 +27,13 @@ export default {
         active: 0,
         tabbars: [
             {
-                name:'home',
+                name:'/',
                 title:'首页',
                 normal: require('./../assets/img/nohomepage.png'),
                 active: require('./../assets/img/homepage.png')
             },
             {
-                name:'/',
+                name:'test',
                 title:'转增',
                 normal: require('./../assets/img/notransferr.png'),
                 active: require('./../assets/img/transferr.png')
@@ -44,7 +44,7 @@ export default {
                 active: require('./../assets/img/goodscar.png')
             },
             {
-                name:'city',
+                name:'login',
                 title:'我的订单',
                 normal: require('./../assets/img/nomyorder.png'),
                 active: require('./../assets/img/myorder.png')

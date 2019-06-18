@@ -1,22 +1,31 @@
 <template>
     <div>
-         <van-nav-bar
-        title="标题"
-        left-text="返回"
-        right-text="按钮"
-        fixed
-        />    
-    </div>    
+         <div class="content">
+           <van-nav-bar title="标题">
+                <van-icon name="bars" slot="left" @click="handleMaskClick"/>
+              <!-- <van-icon name="bars" slot="left"/> -->
+              <van-icon name="search" slot="right" />
+           </van-nav-bar>
+        </div>
+    </div>
 </template>
 <script>
-import { NavBar } from 'vant';
+import { NavBar,Icon} from "vant";
 export default {
-    name:"app-header",
-     components:{
-        [NavBar.name]:NavBar,
-     }
-}
+  name: "HomePage",
+  components: {
+    [NavBar.name]:NavBar,
+    [Icon.name]:Icon
+  },
+  methods:{
+    handleMaskClick(){
+      console.log(1111)
+      this.$refs.drawer.toggle();
+    }
+  }
+ 
+};
 </script>
 <style lang="stylus" scoped>
-
+   
 </style>
