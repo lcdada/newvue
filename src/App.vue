@@ -1,76 +1,121 @@
 <template>
   <div id="app">
-    <vue-drawer-layout
-      ref="drawer"
-      :enable="true"
-      :animatable="true"
-      :z-index="0"
-      :drawable-distance="Math.floor(800/3)"
-      :content-drawable="true"
-      :backdrop="true"
-      :backdrop-opacity-range="[0,0.4]"
-      @mask-click="handleMaskClick"
-    >
-        <div class="drawer-content" slot="drawer">
-          <app-header v-if="header_show" class="header"></app-header>
-        </div>
-        <div slot="content"> 
-          <div class="header">
-             <van-nav-bar title="标题">
-                <van-icon name="bars" slot="left" @click="handleMaskClick"/>
-                <van-icon name="search" slot="right" />
-              </van-nav-bar>
+   
+          <div ref="wrapper" class="wrapper">
+              <ul >
+                  <li
+                  v-for="item in class_list"
+                  :key="item.id"
+                  class="item"
+                  @click="goClassList(item)"
+                  >
+                      <p class="class_item">{{item.name}}</p>
+                      <van-icon name="arrow"  class="arrow"/>
+                  </li>
+              </ul>
           </div>
-         
-          <keep-alive>
-            <router-view v-if="$route.meta.keepAlive" v-on:public_header="public_header" v-on:public_footer="public_footer"></router-view>
-          </keep-alive>
-            <router-view v-if="!$route.meta.keepAlive"></router-view>
-          <app-footer v-if="footer_show"></app-footer>
-        </div>
-    </vue-drawer-layout>
+		  <div>
+				<div class="header">
+					<van-nav-bar title="蓝卡优选" fixed class="header_nav">
+						<van-icon name="wap-nav" slot="left" color="#000" size="20px" @click="handleMaskClick"/>
+						<van-icon name="manager-o" slot="right" color="#000" size="20px" class="mine"/>
+						<van-icon name="bag-o" slot="right" color="#000" size="20px"/>
+					</van-nav-bar>
+				</div>
+				<keep-alive>
+					<router-view v-if="$route.meta.keepAlive" v-on:public_header="public_header" v-on:public_footer="public_footer"></router-view>
+				</keep-alive>
+					<router-view v-if="!$route.meta.keepAlive"></router-view>
+				<!-- <app-footer v-if="footer_show"></app-footer> -->
+		  </div>
   </div>
 </template>
 
 <script>
-import AppHeader from './components/Header'
-import AppFooter from './components/Footer'
-import {DrawerLayout} from 'vue-drawer-layout'
-import {NavBar,Icon} from 'vant'
+import AppHeader from "./components/Header";
+import Class from "@/page/class/Class";
+import BScroll from 'better-scroll'
+// import AppFooter from './components/Footer'
+import { DrawerLayout } from "vue-drawer-layout";
+import { NavBar, Icon } from "vant";
 
 export default {
-  name: 'App',
-  data () {
+  name: "App",
+  data() {
     return {
-      header_show:true,
-      footer_show:true,
-
+      header_show: true,
+      footer_show: true,
+      class_list: []
+    };
+  },
+  components: {
+    AppHeader,
+    // AppFooter,
+    Class,
+    [DrawerLayout.name]: DrawerLayout,
+    [NavBar.name]: NavBar,
+    [Icon.name]: Icon
+  },
+  methods: {
+    //是否显示头部
+    public_header: function(bool) {
+      this.header_show = bool;
+    },
+    //是否显示底部
+    public_footer: function(bool) {
+      this.footer_show = bool;
+    },
+    handleMaskClick() {
+      this.$refs.drawer.css("left",0);
+    },
+    getClassList() {
+      this.$api.home.class({}).then(params => {
+        if (params.data.code == 1000) {
+          const data = params.data.data;
+          this.class_list = data;
+          console.log(data);
+        }
+        console.log(params);
+      });
+    },
+    goClassList(item) {
+      this.$refs.drawer.toggle();
+      this.$router.push({
+        path: "./classpage",
+        query: { goods_class: item.id }
+      });
     }
   },
-  components:{
-      AppHeader,
-      AppFooter,
-      [DrawerLayout.name]:DrawerLayout,
-      [NavBar.name]:NavBar,
-      [Icon.name]:Icon
-  },
-   methods:{
-      //是否显示头部
-      public_header:function (bool) {
-        this.header_show = bool;
-      },
-      //是否显示底部
-      public_footer:function (bool) {
-          this.footer_show = bool;
-      },
-       handleMaskClick() { 
-        this.$refs.drawer.toggle();
-       }
+  mounted() {
+	this.getClassList();
+    let wrapper = document.querySelector('.wrapper')
+	let scroll = new BScroll(wrapper)
   }
-}
+};
 </script>
 
 <style lang="stylus" scoped>
-  
+	.wrapper
+		position absolute
+		left -100%
+		top 0
+		z-index 9
+	.header
+		padding-bottom 0.9rem
+		.item 
+			height: 0.9rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 0.3rem;
+			box-sizing: border-box;
+			.class_item 
+				font-size: 0.28rem;
+				font-weight: 500;
+		.mine
+			margin-right 0.2rem
+		
+		.content-wrap
+				overflow auto
 </style>
 
