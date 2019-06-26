@@ -1,19 +1,29 @@
 <template>
   <div id="app">
-   
-          <div ref="wrapper" class="wrapper">
-              <ul >
-                  <li
-                  v-for="item in class_list"
-                  :key="item.id"
-                  class="item"
-                  @click="goClassList(item)"
-                  >
-                      <p class="class_item">{{item.name}}</p>
-                      <van-icon name="arrow"  class="arrow"/>
-                  </li>
-              </ul>
-          </div>
+	  	  <div>
+				<van-popup
+				v-model="show"
+				position="left"
+				:lock-scroll="true"
+				 >
+					 <div ref="wrapper" class="wrapper">
+						<div class="class_img">
+							<img src="./assets/img/logo_icon.png" alt="">
+						</div>
+						<ul >
+							<li
+							v-for="item in class_list"
+							:key="item.id"
+							class="item"
+							@click="goClassList(item)"
+							>
+								<p class="class_item">{{item.name}}</p>
+								<van-icon name="arrow"  class="arrow"/>
+							</li>
+						</ul>
+					</div>
+				</van-popup>
+		  </div>
 		  <div>
 				<div class="header">
 					<van-nav-bar title="蓝卡优选" fixed class="header_nav">
@@ -37,7 +47,7 @@ import Class from "@/page/class/Class";
 import BScroll from 'better-scroll'
 // import AppFooter from './components/Footer'
 import { DrawerLayout } from "vue-drawer-layout";
-import { NavBar, Icon } from "vant";
+import { NavBar, Icon,Popup,Button } from "vant";
 
 export default {
   name: "App",
@@ -45,7 +55,8 @@ export default {
     return {
       header_show: true,
       footer_show: true,
-      class_list: []
+	  class_list: [],
+	  show: false
     };
   },
   components: {
@@ -54,7 +65,9 @@ export default {
     Class,
     [DrawerLayout.name]: DrawerLayout,
     [NavBar.name]: NavBar,
-    [Icon.name]: Icon
+	[Icon.name]: Icon,
+	[Popup.name]:Popup,
+	[Button.name]:Button 
   },
   methods: {
     //是否显示头部
@@ -66,10 +79,8 @@ export default {
       this.footer_show = bool;
     },
     handleMaskClick() {
-      this.$refs.drawer.css("left",0);
-    },
-    getClassList() {
-      this.$api.home.class({}).then(params => {
+		this.show = true;
+		this.$api.home.class({}).then(params => {
         if (params.data.code == 1000) {
           const data = params.data.data;
           this.class_list = data;
@@ -79,29 +90,24 @@ export default {
       });
     },
     goClassList(item) {
-      this.$refs.drawer.toggle();
+      this.show = false;
       this.$router.push({
         path: "./classpage",
         query: { goods_class: item.id }
       });
     }
   },
-  mounted() {
-	this.getClassList();
-    let wrapper = document.querySelector('.wrapper')
-	let scroll = new BScroll(wrapper)
-  }
+  
 };
 </script>
 
 <style lang="stylus" scoped>
 	.wrapper
-		position absolute
-		left -100%
-		top 0
-		z-index 9
-	.header
-		padding-bottom 0.9rem
+		width 3.2rem
+		.class_img
+			height 0.92rem
+			line-height 0.92rem
+			padding-left 0.3rem
 		.item 
 			height: 0.9rem;
 			display: flex;
@@ -112,10 +118,10 @@ export default {
 			.class_item 
 				font-size: 0.28rem;
 				font-weight: 500;
-		.mine
-			margin-right 0.2rem
-		
-		.content-wrap
-				overflow auto
+	.mine
+		margin-right 0.2rem
+	
+	.content-wrap
+			overflow auto
 </style>
 

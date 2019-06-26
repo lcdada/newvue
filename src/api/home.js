@@ -34,8 +34,13 @@ const home = {
     // 获取分类列表
     class(params){
         return axios.post(`${base.home}/shop/goodsClass`,qs.stringify(params))
+    },
+    // 获取模块 信息
+   // 获取模块 信息
+   block(params){
+        return axios.post(`${base.home}/v1/block/contents`,qs.stringify(params))
     }
-
+        
 }
 
 export default home;

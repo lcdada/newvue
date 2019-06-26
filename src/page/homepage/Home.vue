@@ -1,25 +1,28 @@
 <template>
     <div class="home">   
-        <home-header :bless="bless_info"></home-header>
+        <!-- <home-header :bless="bless_info"></home-header> -->
       
-        <home-list :list="goods_list" :bless="bless_info"></home-list>
-
+        <!-- <home-list :list="goods_list" :bless="bless_info"></home-list> -->
+        <one :one="block_one" ></one>
     </div>
 </template>
 <script>
 import HomeHeader from './components/Header'
 import HomeList from './components/List'
+import One from './components/One'
 
 export default {
     name:"HomePage",
     components:{
         HomeHeader,
-        HomeList
+        HomeList,
+        One
     },
     data (){
         return {
            bless_info:{},
            goods_list:[],
+           block_one:{},
         }
 
     },
@@ -30,7 +33,6 @@ export default {
             }).then(params => {
                     if(params.data.code  == 1000){
                         const data = params.data.data;
-                        console.log(params)
                         this.bless_info = data.bless_info
 
                     }
@@ -41,10 +43,28 @@ export default {
                package_id:390
             }).then(params => {
                  if(params.data.code  == 1000){
+                     console.log(params)
                         const data = params.data.data.goods_list;
                         this.goods_list = data.data
                     
                     }
+            })
+        },
+        getBlockMsg(){
+             this.$api.home.block({
+                block_id:1 ,
+                page:1,
+                per_page:1
+            }).then(params => {
+                if(params.data.code  == 1000){
+                    const data = params.data.data.list[0]
+                    const data_text = JSON.parse(data.data)
+                    console.log(data)
+                    console.log(data.data)
+
+                    this.block_one = data
+
+                }
             })
         }
         
@@ -52,7 +72,8 @@ export default {
      mounted () {
         this.getBless(),
         this.getGoodsList()
-    },  
+        this.getBlockMsg()
+    }
 
 }
 </script>
