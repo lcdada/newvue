@@ -46,7 +46,7 @@ const home = {
     },
     //登陆
     login(params){
-        return axios.post(`${base.first}/v1/account/login`,qs.stringify(params))
+        return axios.post(`${base.shop}getCode`,qs.stringify(params))
     }
 
         

@@ -1,12 +1,12 @@
 <template>
     <div>
         <div class="login" v-if="seen_login">
-            <p class="login_text">登陆/注册</p>
+            <p class="login_text">登录/注册</p>
             <input type="text" class="phone_num" placeholder="请输入手机号" v-model="phone_num">
             <button class="btn_verify" @click="Login">验证手机号</button>
         </div>
         <div class="login_code" v-if="seen_code">
-            <p class="login_text">登陆/注册</p>
+            <p class="login_text">登录/注册</p>
             <input type="text" class="phone_num" placeholder="请输入手机号" v-model="phone_num">
             <button class="btn_verify" @click="Login">获取验证码</button>
         </div>
@@ -45,6 +45,15 @@ export default {
                 
                         console.log(params)
                 })
+                // var JSONparams ={
+                //     params: {mobile: this.phone_num},
+                //     jsonp: 'callback' // 设置回调函数的参数的一个名字，默认是话是callback,
+                // }
+                // this.$http.post('http://123.56.162.249:18306/v1/account/login', JSONparams).then( (res) => {
+                //     console.log(res);
+                // }, (err) => {
+                //     console.log(err);
+                // })
             }
            
         }

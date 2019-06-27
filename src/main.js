@@ -9,6 +9,7 @@ import './assets/styles/reset.css'
 import './assets/styles/border.css'
 import './assets/styles/iconfont.css'
 import 'swiper/dist/css/swiper.css'
+import VueResource from 'vue-resource'
 import api from './api' // 导入api接口
 import 'babel-polyfill' //解决手机浏览器默认不支持promise。
 import utils from './utils/utils'
@@ -21,6 +22,7 @@ Vue.config.productionTip = false
 fastClick.attach(document.body)
 Vue.use(VueAwesomeSwiper)
 Vue.use(DrawerLayout)
+Vue.use(VueResource)
 
 new Vue({
   el: '#app',
