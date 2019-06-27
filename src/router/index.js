@@ -12,6 +12,7 @@ import Address from '@/page/address/Address'
 import Buy from '@/page/buy/Buy'
 import Pay from '@/page/pay/Pay'
 import Succeed from '@/page/succeed/Succeed'
+import Login from '@/page/login/Login'
 
 Vue.use(Router)
 
@@ -83,6 +84,11 @@ export default new Router({
       path:'/pay',
       name:'Pay',
       component:Pay
+    },
+    {
+      path:'/login',
+      name:'Login',
+      component:Login
     }
   ]
 })

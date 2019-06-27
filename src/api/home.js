@@ -37,9 +37,18 @@ const home = {
     },
     // 获取模块 信息
    // 获取模块 信息
-   block(params){
+    block(params){
         return axios.post(`${base.home}/v1/block/contents`,qs.stringify(params))
+    },
+    // 分类列表
+    classList(params){
+        return axios.post(`${base.home}/shop/goodsList`,qs.stringify(params))
+    },
+    //登陆
+    login(params){
+        return axios.post(`${base.first}/v1/account/login`,qs.stringify(params))
     }
+
         
 }
 

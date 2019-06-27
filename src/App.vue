@@ -118,10 +118,12 @@ export default {
 			.class_item 
 				font-size: 0.28rem;
 				font-weight: 500;
-	.mine
-		margin-right 0.2rem
-	
-	.content-wrap
-			overflow auto
+	.header
+		padding-bottom 0.92rem
+		.mine
+			margin-right 0.2rem
+		
+		.content-wrap
+				overflow auto
 </style>
 
