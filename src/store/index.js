@@ -82,6 +82,9 @@ export default new Vuex.Store({
             for(var i=0;i<len;i++){
                 if(state.carList[i].id==params.id){
                     state.carList.splice(i,1);
+                    if(len == ""){
+                        this.$router.push({path:'/'})
+                    }
                     break;
                 }
             }

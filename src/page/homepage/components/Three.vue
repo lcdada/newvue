@@ -5,7 +5,7 @@
 		  <p class="title_s">{{title.banner_desc}}</p>
 	  </div>
 	  <div>
-		  <van-swipe :width="210">
+		  <van-swipe :width="210" :show-indicators="false">
 			  <van-swipe-item v-for="item in three" :key="item.id">
 				  <div>
 					  <div class=" item_img">
