@@ -11,15 +11,9 @@
                   <p class="goods_name">{{item.goods_name}}</p>
                   <p class= "goods_title">{{item.title}}</p>
                   <p class="goods_num"> x{{ item.num }}</p>
-
               </div>
           </div>
-          <div class="goods_num">
-              
-              <div class="num-btn" @click="reduceFun(item)">-</div>
-              <div class="show-num">{{ item.num }}</div>
-              <div class="num-btn" @click="addCar(item)">+</div>
-          </div>
+        
           <van-icon name="cross" class="delete" @click="deleteFun(item)" />
         </li>
       </ul>
