@@ -1,7 +1,7 @@
 <template>
   <div class="goods_list">
 	  <ul class="goodsList">
-		  <li class="item" v-for="item in list" :key="item.id">
+		  <li class="item" v-for="item in list" :key="item.id" @click="godetail(item)">
 			  <div class="item_img">
 				  <img :src="item.thumb" class="img"/>
 			  </div>
@@ -42,7 +42,11 @@ export default {
 				}
 			}
 		})
-        },
+		},
+		godetail(item){
+			let id = utils.getUrlKey('goods_class')
+			this.$router.push({path:'./detail',query:{goods_class:id,goods_id:item.id}})
+		}
 	},
 	mounted () {
 		this.getGoddsList()

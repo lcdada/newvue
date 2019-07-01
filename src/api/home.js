@@ -17,36 +17,39 @@ const home = {
     },
     // 商品详情
     getGoodsDetail(params){
-        return axios.post(`${base.home}/shop/goodsDetail`,qs.stringify(params))
+        return axios.post(`${base.home}goodsDetail`,qs.stringify(params))
     },
     // 验证配送区域
     getRegion(params){
-        return axios.post(`${base.home}/shop/checkGoodsRegion`,qs.stringify(params))
+        return axios.post(`${base.home}checkGoodsRegion`,qs.stringify(params))
     },
     // 检测卡号密码的正确性
     accountPwd(params){
-        return axios.post(`${base.home}/shop/checkAccountPwd`,qs.stringify(params))
+        return axios.post(`${base.home}checkAccountPwd`,qs.stringify(params))
     },
     //生成订单
     order(params){
-        return axios.post(`${base.home}/shop/generateOrder`,qs.stringify(params))
+        return axios.post(`${base.home}generateOrder`,qs.stringify(params))
     },
     // 获取分类列表
     class(params){
-        return axios.post(`${base.home}/shop/goodsClass`,qs.stringify(params))
+        return axios.post(`${base.home}goodsClass`,qs.stringify(params))
     },
     // 获取模块 信息
    // 获取模块 信息
     block(params){
-        return axios.post(`${base.home}/v1/block/contents`,qs.stringify(params))
+        return axios.post(`${base.home}contents`,qs.stringify(params))
     },
     // 分类列表
     classList(params){
-        return axios.post(`${base.home}/shop/goodsList`,qs.stringify(params))
+        return axios.post(`${base.home}goodsList`,qs.stringify(params))
     },
     //登陆
     login(params){
-        return axios.post(`${base.shop}getCode`,qs.stringify(params))
+        return axios.post(`${base.home}getCode`,qs.stringify(params))
+    },
+    tologin(params){
+        return axios.post(`${base.home}login`,qs.stringify(params))
     }
 
         

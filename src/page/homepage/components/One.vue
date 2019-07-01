@@ -4,14 +4,14 @@
           <div class="one_img">
               <img :src="one.img" alt="" class="one_pict">
               <div class="img_text">
-                  <p class="img_title">{{ text.img_title}}</p>
-                  <p class="img_desc">{{text.img_desc}}</p>
+                  <p class="img_title">{{ one.img_title}}</p>
+                  <p class="img_desc">{{one.img_desc}}</p>
                   <!-- <p>{{one.text.img_title}}</p> -->
               </div>
           </div>
           <div class="pic_text">
               <p class="title">{{one.title}}</p>
-              <p class="desc">{{text.desc}}</p>
+              <p class="desc">{{one.desc}}</p>
           </div>
       </div>
   </div>
@@ -22,8 +22,6 @@ export default {
     name:'One',
     props:{
         one:Object,
-        text:Object
-
     },
    
 }

@@ -6,7 +6,7 @@
 				position="left"
 				:lock-scroll="true"
 				 >
-					 <div ref="wrapper" class="wrapper">
+					<div ref="wrapper" class="wrapper">
 						<div class="class_img">
 							<img src="./assets/img/logo_icon.png" alt="">
 						</div>
@@ -28,8 +28,8 @@
 				<div class="header">
 					<van-nav-bar title="蓝卡优选" fixed class="header_nav">
 						<van-icon name="wap-nav" slot="left" color="#000" size="20px" @click="handleMaskClick"/>
-						<van-icon name="manager-o" slot="right" color="#000" size="20px" class="mine"/>
-						<van-icon name="bag-o" slot="right" color="#000" size="20px"/>
+						<van-icon name="manager-o" slot="right" color="#000" size="20px" class="mine" />
+						<van-icon name="bag-o" slot="right" color="#000" size="20px" @click="goshopcart"/>
 					</van-nav-bar>
 				</div>
 				<keep-alive>
@@ -84,9 +84,9 @@ export default {
         if (params.data.code == 1000) {
           const data = params.data.data;
           this.class_list = data;
-          console.log(data);
+        //   console.log(data);
         }
-        console.log(params);
+        // console.log(params);
       });
     },
     goClassList(item) {
@@ -95,7 +95,11 @@ export default {
         path: "./classpage",
         query: { goods_class: item.id }
       });
-    }
+	},
+	goshopcart(){
+		this.$router.push({ path: "./shopcart",})
+		// this.$router.push('/shopcart');
+	}
   },
   
 };

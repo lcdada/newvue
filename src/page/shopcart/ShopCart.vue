@@ -11,18 +11,31 @@
                   <p class="goods_name">{{item.goods_name}}</p>
                   <p class= "goods_title">{{item.title}}</p>
                   <p class="goods_num"> x{{ item.num }}</p>
+
               </div>
+          </div>
+          <div class="goods_num">
+              
+              <div class="num-btn" @click="reduceFun(item)">-</div>
+              <div class="show-num">{{ item.num }}</div>
+              <div class="num-btn" @click="addCar(item)">+</div>
           </div>
           <van-icon name="cross" class="delete" @click="deleteFun(item)" />
         </li>
       </ul>
     </div> 
+    <van-tabbar class="footer_total">
+      <div  class="footer_btn">
+          <button class="btn total_p" left >总金额：￥{{totalPrice}}</button>
+          <button class="btn account" right>去结算</button>
+      </div>
+    </van-tabbar>
     <button class="go_exchange" @click="goExchange">去兑换</button>
   </div>
 </template>
 
 <script>
-import {Icon} from 'vant'
+import {Tabbar,Icon,Popup,Toast} from 'vant'
 export default {
     name:'ShopCart',
      data() {
@@ -30,7 +43,10 @@ export default {
         }
     },
     components:{
-        [Icon.name]:Icon
+        [Tabbar.name]:Tabbar,
+        [Icon.name]:Icon,
+        [Popup.name]:Popup,
+        [Toast.name]:Toast     
     },
     computed: { 
         //购物车列表
@@ -42,6 +58,10 @@ export default {
         //商品总数
         count() {
             return this.$store.getters.carCount;
+        },
+         //商品总价
+        totalPrice() {
+        return this.$store.getters.totalPrice;
         }
      
     },

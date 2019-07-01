@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '@/page/homepage/Home'
 import Test from '@/page/test/Test'
-import Class from '@/page/class/Class'
+// import Class from '@/page/class/Class'
 import ClassPage from '@/page/classpage/ClassPage'
 import Detail from '@/page/detail/Detail'
 import Cart from '@/page/cart/Cart'
@@ -70,11 +70,11 @@ export default new Router({
       name:'Succeed',
       component:Succeed
     },
-    {
-      path:'/class',
-      name:'Class',
-      component:Class
-    },
+    // {
+    //   path:'/class',
+    //   name:'Class',
+    //   component:Class
+    // },
     {
       path:'/classpage',
       name:'ClassPage',

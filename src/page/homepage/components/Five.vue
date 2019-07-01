@@ -1,12 +1,12 @@
 <template>
   <div>
       <div class="top_title">
-		  <p class="title_b">{{title.banner_title}}</p>
-		  <p class="title_s">{{title.banner_desc}}</p>
+		  <p class="title_b">{{fiveTitle.banner_title}}</p>
+		  <p class="title_s">{{fiveTitle.banner_desc}}</p>
 	  </div>
 	  <div>
-		  <van-swipe :width="210">
-			  <van-swipe-item v-for="item in three" :key="item.id">
+		  <van-swipe :width="210" :show-indicators="false">
+			  <van-swipe-item v-for="item in five" :key="item.id">
 				  <div>
 					  <div class=" item_img">
 						  <img :src="item.img" alt="" class="itemImg">
@@ -32,8 +32,8 @@ import { Swipe, SwipeItem } from 'vant';
 export default {
 	name:'Three',
 	props:{
-		three:Array,
-		title:Object
+		five:Array,
+		fiveTitle:Object
 	},
 	components:{
 		[Swipe.name]:Swipe,
