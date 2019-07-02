@@ -44,12 +44,21 @@ const home = {
     classList(params){
         return axios.post(`${base.home}goodsList`,qs.stringify(params))
     },
-    //登陆
+    //获取验证码
     getCode(params){
         return axios.post(`${base.home}getCode`,qs.stringify(params))
     },
+    // 登陆
     tologin(params){
         return axios.post(`${base.home}login`,qs.stringify(params))
+    },
+    // 增加购物车
+    addcart(params){
+        return axios.post(`${base.home}addCart`,qs.stringify(params))
+    },
+    // 删除购物车
+    deletecart(params){
+        return axios.post(`${base.home}delCart`,qs.stringify(params))
     }
 
         

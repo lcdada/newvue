@@ -17,6 +17,7 @@
 
 <script>
 import {  Tabbar, Toast  } from 'vant';
+import utils from '@/utils/utils'
 
 export default {
     name:'DetailConent',
@@ -30,7 +31,18 @@ export default {
     methods: {
         addCart(params){
             this.$store.dispatch('addCar',params);
-            Toast.success('加入购物车');
+            let goods_id = utils.getUrlKey('goods_id')
+            this.$api.home.addcart({
+                goods_id:goods_id,
+                goods_num:1
+            }).then(params =>{
+                 if(params.data.code  == 1000){
+                     console.log(params)
+                     Toast.success('加入购物车');
+                    }else{
+                        alert(params.data.error)
+                    }
+            })
         },
         buyNow(params){
         	// console.log(params)

@@ -34,6 +34,7 @@
 </template>
 
 <script>
+
 import {Icon,Popup,Toast} from 'vant'
 export default {
     name:'ShopCart',
@@ -74,7 +75,21 @@ export default {
         },
         // 删除
         deleteFun(data){
-            this.$store.dispatch('deleteCar',data)
+            this.$store.dispatch('deleteCar',data);
+            this.$api.home.deletecart({
+                goods_id:data.id,
+            }).then(params =>{
+                 if(params.data.code  == 1000){
+                     console.log(params)
+                     Toast.success('已删除');
+                     if(this.count == 1){
+                         this.$router.go(-1)
+                     }
+                    }else{
+                        alert(params.data.error)
+                        
+                    }
+            })
         },
         goExchange(){
             this.$router.push({path:'/pay'})
