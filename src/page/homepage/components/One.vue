@@ -1,8 +1,8 @@
 <template>
   <div>
       <div>
-          <div class="one_img">
-              <img :src="one.img" alt="" class="one_pict">
+          <div class="one_img" @click="godetail(one)">
+              <img :src="one.img" alt="" class="one_pict"  >
               <div class="img_text">
                   <p class="img_title">{{ one.img_title}}</p>
                   <p class="img_desc">{{one.img_desc}}</p>
@@ -23,6 +23,16 @@ export default {
     props:{
         one:Object,
     },
+    methods:{
+        godetail(data){
+            let url = data.url
+            window.location.href = url
+        }
+    },
+    mounted(){
+        
+    }
+    
    
 }
 

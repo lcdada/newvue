@@ -6,8 +6,8 @@
 	  </div>
 	  <div>
 		  <van-swipe :width="210" :show-indicators="false">
-			  <van-swipe-item v-for="item in five" :key="item.id">
-				  <div>
+			  <van-swipe-item v-for="item in five" :key="item.id" @click.stop>
+				  <div @click="gourl(item)">
 					  <div class=" item_img">
 						  <img :src="item.img" alt="" class="itemImg">
 					  </div>
@@ -38,7 +38,13 @@ export default {
 	components:{
 		[Swipe.name]:Swipe,
 		[SwipeItem.name]:SwipeItem
-	}
+    },
+    methods:{
+        gourl(data){
+			let url = data.url
+			window.location.href = url
+		},
+    }
 }
 
 </script>

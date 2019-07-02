@@ -28,7 +28,7 @@
 				<div class="header">
 					<van-nav-bar title="蓝卡优选" fixed class="header_nav">
 						<van-icon name="wap-nav" slot="left" color="#000" size="20px" @click="handleMaskClick"/>
-						<van-icon name="manager-o" slot="right" color="#000" size="20px" class="mine" />
+						<van-icon name="manager-o" slot="right" color="#000" size="20px" class="mine"/>
 						<van-icon name="bag-o" slot="right" color="#000" size="20px" @click="goshopcart"/>
 					</van-nav-bar>
 				</div>
@@ -43,7 +43,7 @@
 
 <script>
 import AppHeader from "./components/Header";
-import Class from "@/page/class/Class";
+// import Class from "@/page/class/Class";
 import BScroll from 'better-scroll'
 // import AppFooter from './components/Footer'
 import { DrawerLayout } from "vue-drawer-layout";
@@ -61,8 +61,6 @@ export default {
   },
   components: {
     AppHeader,
-    // AppFooter,
-    Class,
     [DrawerLayout.name]: DrawerLayout,
     [NavBar.name]: NavBar,
 	[Icon.name]: Icon,
@@ -84,9 +82,7 @@ export default {
         if (params.data.code == 1000) {
           const data = params.data.data;
           this.class_list = data;
-        //   console.log(data);
         }
-        // console.log(params);
       });
     },
     goClassList(item) {
@@ -95,11 +91,9 @@ export default {
         path: "./classpage",
         query: { goods_class: item.id }
 	  });
-	  this.getGoddsList()
 	},
 	goshopcart(){
 		this.$router.push({ path: "./shopcart",})
-		// this.$router.push('/shopcart');
 	}
   },
   

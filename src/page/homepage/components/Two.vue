@@ -1,7 +1,7 @@
 <template>
   <div>
       <div>
-          <div class="one_img">
+          <div class="one_img" @click="gourl(two)">
               <img :src="two.img" alt="" class="one_pict">
               <div class="img_text">
                   <p class="img_title">{{ two.img_title}}</p>
@@ -24,6 +24,12 @@ export default {
         // text_two:Object
 
     },
+    methods:{
+        gourl(data){
+            let url = data.url
+            window.location.href = url
+        }
+    }
    
 }
 

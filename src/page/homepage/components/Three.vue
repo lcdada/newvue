@@ -5,9 +5,9 @@
 		  <p class="title_s">{{title.banner_desc}}</p>
 	  </div>
 	  <div>
-		  <van-swipe :width="210" :show-indicators="false">
-			  <van-swipe-item v-for="item in three" :key="item.id">
-				  <div>
+		  <van-swipe :width="210" :show-indicators="false" >
+			  <van-swipe-item v-for="item in three" :key="item.id" @click.stop>
+				  <div @click="gourl(item)">
 					  <div class=" item_img">
 						  <img :src="item.img" alt="" class="itemImg">
 					  </div>
@@ -22,7 +22,7 @@
 		  </van-swipe>
 	  </div>
 	  <div>
-		  <button class="goplay">去逛逛</button>
+		  <button class="goplay" @click="gourlList">去逛逛</button>
 	  </div>
   </div>
 </template>
@@ -38,6 +38,27 @@ export default {
 	components:{
 		[Swipe.name]:Swipe,
 		[SwipeItem.name]:SwipeItem
+	},
+	methods:{
+		gourl(data){
+			let url = data.url
+			window.location.href = url
+		},
+		gourlList(){
+			this.$api.home.classList({
+			goods_class:11,
+			custom_id:19,
+			pageindex:1,
+			// pagesize:1
+		}).then(params => {
+			if(params.data.code  == 1000){
+					if(params.data.code  == 1000){
+					this.$router.push({path:'./classpage', query: { goods_class: goods_class }})
+
+				}
+			}
+		})
+		}
 	}
 }
 

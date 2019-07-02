@@ -2,21 +2,17 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '@/page/homepage/Home'
 import Test from '@/page/test/Test'
-// import Class from '@/page/class/Class'
 import ClassPage from '@/page/classpage/ClassPage'
 import Detail from '@/page/detail/Detail'
-import Cart from '@/page/cart/Cart'
 import ShopCart from '@/page/shopcart/ShopCart'
-import NowBuy from '@/page/nowbuy/NowBuy'
 import Address from '@/page/address/Address'
-import Buy from '@/page/buy/Buy'
 import Pay from '@/page/pay/Pay'
 import Succeed from '@/page/succeed/Succeed'
 import Login from '@/page/login/Login'
 
 Vue.use(Router)
-
-export default new Router({
+const router = new Router({
+  
   routes: [
     {
       path:'/',
@@ -32,19 +28,9 @@ export default new Router({
       component:Detail
     },
     {
-      path:'/cart',
-      name:'Cart',
-      component:Cart
-    },
-    {
       path:'./address',
       name:'Address',
       component:Address
-    },
-    {
-      path:'/buy',
-      name:'Buy',
-      component:Buy
     },
     {
       path:'/test',
@@ -58,23 +44,16 @@ export default new Router({
     {
       path:'/shopcart',
       name:'ShopCart',
-      component:ShopCart
-    },
-    {
-      path:'/nowbuy',
-      name:'NowBuy',
-      component:NowBuy
+      component:ShopCart,
+      meta: {
+        type: 'login'  // 是否需要判断是否登录,这里是需要判断
+      }
     },
     {
       path:'/succeed',
       name:'Succeed',
       component:Succeed
     },
-    // {
-    //   path:'/class',
-    //   name:'Class',
-    //   component:Class
-    // },
     {
       path:'/classpage',
       name:'ClassPage',
@@ -91,4 +70,22 @@ export default new Router({
       component:Login
     }
   ]
-})
+  
+});
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  const type = to.meta.type
+  // 判断该路由是否需要登录权限
+  if (type === 'login') {
+    if (window.localStorage.getItem('login')) {
+      next()
+    } else {
+      next('/login')
+    }
+  } else {
+    next()  // 确保一定要有next()被调用
+  }
+});
+export default router

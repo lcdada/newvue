@@ -1,7 +1,7 @@
 <template>
   <div>
       <div>
-          <div class="one_img">
+          <div class="one_img" @click="gourl(four)">
               <img :src="four.img" alt="" class="one_pict">
               <div class="img_text">
                   <p class="img_title">{{ four.img_title}}</p>
@@ -23,6 +23,12 @@ export default {
     props:{
         four:Object,
     },
+    methods:{
+        gourl(data){
+            let url = data.url
+            window.location.href = url
+        }
+    }
    
 }
 

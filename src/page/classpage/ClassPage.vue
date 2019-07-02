@@ -21,7 +21,8 @@ export default {
 	name:'ClassPage',
 	data(){
 		return{
-			list:[]
+			list:[],
+			goods_class:""
 		}
 	},
     methods:{
@@ -48,8 +49,10 @@ export default {
 			this.$router.push({path:'./detail',query:{goods_class:id,goods_id:item.id}})
 		}
 	},
-	mounted () {
-		this.getGoddsList()
+	watch:{
+		 $route(){
+      this.getGoddsList()
+     }
 	}
 
 }

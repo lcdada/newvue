@@ -72,19 +72,36 @@ export default {
     computed: { 
         //购物车列表
         carData() {
-            return this.$store.state.carList;
-            console.log(this.$store.state.carList)
+        	if(this.$route.query.now!=undefined){
+        		return this.$store.state.nowlist;
+        	}else{
+        		return this.$store.state.carList;
+        	}
+           
         },
         
         //商品总数
         count() {
-            return this.$store.getters.carCount;
+        	if(this.$route.query.now!=undefined){
+        		return this.$store.getters.carCount1;
+        	}else{
+        		return this.$store.getters.carCount;
+        	}
         },
          //商品总价
         totalPrice() {
-        return this.$store.getters.totalPrice;
+        	if(this.$route.query.now!=undefined){
+        		return this.$store.getters.totalPrice1;
+        	}else{
+        		return this.$store.getters.totalPrice;
+        	}
+        
         }
      
+    },
+    created(){
+    	console.log(this.$store.state.carList)
+    	console.log(this.$store.state.nowlist)
     },
      methods: {
         // 增加数量
@@ -99,9 +116,9 @@ export default {
         deleteFun(data){
             this.$store.dispatch('deleteCar',data)
         },
-        goExchange(){
-            this.$router.push({path:'/cart'})
-		},
+        // goExchange(){
+        //     this.$router.push({path:'/cart'})
+		// },
 		addClass(index){
 			this.current=index
     }

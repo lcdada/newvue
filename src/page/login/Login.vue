@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="login" v-show="!seen_login">
+        <div class="login" v-show="seen_login">
             <p class="login_text">登录/注册</p>
             <input type="text" class="phone_num" placeholder="请输入手机号" v-model="phone_num">
             <button class="btn_verify" @click="Login">验证手机号</button>
         </div>
-        <div class="login_code" v-show="seen_login">
+        <div class="login_code" v-show="!seen_login">
             <p class="login_text">登录/注册</p>
             <p class="phone_num_text">{{ this.phone_num }}</p>
             <div class="codeAll">
@@ -75,7 +75,32 @@ export default {
             document.getElementById(this.codeId[location-1]).focus( )
             console.log(this.smsCode)
             console.log(this.code[3])
-        }
+            console.log(tempValue.length)
+            if(tempValue.length == 4){
+                this.$api.home.tologin({
+                    mobile : this.phone_num,
+                    code:this.smsCode
+                }).then(params => {
+                    if(params.data.code == 1000){
+                       console.log(params)
+                       this.seen_login = false;
+                       this.codeTime = 60;
+                       var codeTimeTimer =  setInterval(()=>{
+                            this.codeTime--;
+                            if(this.codeTime<=0){
+                                this.seen_login = true;
+                                clearInterval(codeTimeTimer);
+                            }
+                        }, 1000);
+                    }
+                    
+                }).catch(error => {
+                    alert(params.data.error)
+                })
+            }
+        },
+       
+          
     },
     methods:{
         Login(){
@@ -87,7 +112,7 @@ export default {
                 });
                 return;
             }else{
-                this.$api.home.login({
+                this.$api.home.getCode({
                     mobile : this.phone_num 
                 }).then(params => {
                     if(params.data.code == 1000){

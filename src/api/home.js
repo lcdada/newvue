@@ -45,7 +45,7 @@ const home = {
         return axios.post(`${base.home}goodsList`,qs.stringify(params))
     },
     //登陆
-    login(params){
+    getCode(params){
         return axios.post(`${base.home}getCode`,qs.stringify(params))
     },
     tologin(params){
