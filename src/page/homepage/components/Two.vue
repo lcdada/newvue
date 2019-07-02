@@ -1,17 +1,16 @@
 <template>
   <div>
       <div>
-          <div class="one_img">
+          <div class="one_img" @click="gourl(two)">
               <img :src="two.img" alt="" class="one_pict">
               <div class="img_text">
-                  <p class="img_title">{{ text_two.img_title}}</p>
-                  <p class="img_desc">{{text_two.img_desc}}</p>
-                  <!-- <p>{{one.text.img_title}}</p> -->
+                  <p class="img_title">{{ two.img_title}}</p>
+                  <p class="img_desc">{{two.img_desc}}</p>
               </div>
           </div>
           <div class="pic_text">
               <p class="title">{{two.title}}</p>
-              <p class="desc">{{text_two.desc}}</p>
+              <p class="desc">{{two.desc}}</p>
           </div>
       </div>
   </div>
@@ -22,9 +21,15 @@ export default {
     name:'Two',
     props:{
         two:Object,
-        text_two:Object
+        // text_two:Object
 
     },
+    methods:{
+        gourl(data){
+            let url = data.url
+            window.location.href = url
+        }
+    }
    
 }
 

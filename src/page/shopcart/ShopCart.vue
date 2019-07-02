@@ -10,19 +10,31 @@
               <div class="item_text">
                   <p class="goods_name">{{item.goods_name}}</p>
                   <p class= "goods_title">{{item.title}}</p>
-                  <p class="goods_num"> x{{ item.num }}</p>
+                  <div class="footer_pn">
+                      <p class="goods_price">￥{{item.price}}</p>
+                      <p class="goods_num"> x{{ item.num }}</p>
+                  </div>
+               
               </div>
           </div>
+        
           <van-icon name="cross" class="delete" @click="deleteFun(item)" />
         </li>
       </ul>
     </div> 
-    <button class="go_exchange" @click="goExchange">去兑换</button>
+    <div  class="footer_btn">
+        <div class="totalPrice">
+            <p class="total_text">总金额：</p>
+            <p class="total_text">￥{{totalPrice}}</p>
+        </div>
+        <button class="go_exchange" @click="goExchange">去结算</button>
+
+    </div>
   </div>
 </template>
 
 <script>
-import {Icon} from 'vant'
+import {Icon,Popup,Toast} from 'vant'
 export default {
     name:'ShopCart',
      data() {
@@ -30,18 +42,24 @@ export default {
         }
     },
     components:{
-        [Icon.name]:Icon
+        [Icon.name]:Icon,
+        [Popup.name]:Popup,
+        [Toast.name]:Toast     
     },
     computed: { 
         //购物车列表
         carData() {
             return this.$store.state.carList;
-            console.log(this.$store.state.carList)
+            // console.log(this.$store.state.carList)
         },
         
         //商品总数
         count() {
             return this.$store.getters.carCount;
+        },
+         //商品总价
+        totalPrice() {
+        return this.$store.getters.totalPrice;
         }
      
     },
@@ -59,7 +77,7 @@ export default {
             this.$store.dispatch('deleteCar',data)
         },
         goExchange(){
-            this.$router.push({path:'/cart'})
+            this.$router.push({path:'/pay'})
         }
 
     }
@@ -74,14 +92,16 @@ export default {
         .item
             position relative
             height 3.72rem 
-            padding 0.32rem
+            padding 0.32rem 0
             box-sizing border-box
             display flex
             justify-content space-between
             align-items center
             background #fff
             margin-bottom 0.08rem
+            border-bottom 0.04rem solid #f5f5f5
             .cart_goods
+                width 100%
                 display flex
                 justify-content flex-start
                 align-items center
@@ -109,21 +129,37 @@ export default {
                         font-size 0.28rem
                         color #666
                         padding-top 0.2rem
-                    .goods_num
+                    .footer_pn
+                        width 100%
                         position absolute
                         bottom 0
                         left 0
+                        display flex
+                        justify-content space-between
+                        align-items center
+                        .goods_num
+                            padding-right 0.3rem
         .delete
             position absolute
-            top 0.2rem
-            right 0.2rem
+            top 0.32rem
+            right 0.4rem
     .go_exchange
-        width 4.38rem
-        height 0.92rem
+        width 3.2rem
+        height 0.8rem
         border-radius 0.08rem
         display block
-        margin 0 auto
         margin-top 0.48rem
         background #000
         color #fff
+    .footer_btn
+        padding 0 0.2rem
+        .totalPrice
+            padding 0.2rem 0
+            display flex 
+            justify-content space-between
+            align-items center
+            .total_text
+                font-size 0.28rem
+                font-weight 600
+                color #000
 </style>

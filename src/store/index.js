@@ -38,20 +38,8 @@ export default new Vuex.Store({
         },
         // 立即购买添加
         nowAddCar(state,params) {
-            let CarCon = state.nowlist;
-            // 判断如果购物车是否有这个商品，有就只增加数量，否则就添加一个
-            // some 只要有一个isHas为true,就为true
-            let isHas = CarCon.some((item) => {
-                if (params.id == item.id) {
-                    item.num++;
-                    return true;
-                } else {
-                    return false;
-                }
-            })
-
-            if (!isHas) {
-                let obj = {
+        	this.state.nowlist=[]
+            let obj = {
                     "goods_name":params.goods_name,
                     "id": params.id,
                     "title": params.class_name,
@@ -60,8 +48,6 @@ export default new Vuex.Store({
                     "num": 1,
                 }
                 this.state.nowlist.push(obj)
-                //  this.state.nowlist.pop(ob)
-            }
         },
         // 减
         reducedCar(state,params){
@@ -82,6 +68,9 @@ export default new Vuex.Store({
             for(var i=0;i<len;i++){
                 if(state.carList[i].id==params.id){
                     state.carList.splice(i,1);
+                    if(len == ""){
+                        this.$router.push({path:'/'})
+                    }
                     break;
                 }
             }
@@ -195,9 +184,25 @@ export default new Vuex.Store({
                 return 0;
             }
         },
+        totalPrice1(state) {
+            let Carlen = state.nowlist;
+            let money = 0;
+            if (Carlen.length != 0) {
+                Carlen.forEach((item) => {
+                    money += item.price * item.num
+                })
+                return money;
+            } else {
+                return 0;
+            }
+        },
         //返回购物车的总数
         carCount(state) {
             return state.carList.length
+        },
+        //返回购物车的总数
+        carCount1(state) {
+            return state.nowlist.length
         },
     },
 })

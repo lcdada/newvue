@@ -3,7 +3,7 @@
       <div class="detail_text">
           <p class="goods_name">{{message.goods_name}}</p>
           <p class="name_second">{{message.salute_sketch}}</p>
-          <p class="price">{{message.market_price}}</p>
+          <!-- <p class="price">{{message.market_price}}</p> -->
       </div>
       <div class="detail_conent" v-html='message.summary'>{{message.summary}}</div>
         <van-tabbar class="footer">
@@ -33,8 +33,10 @@ export default {
             Toast.success('加入购物车');
         },
         buyNow(params){
+        	// console.log(params)
+        	// console.log(this.$store.state.carList)
             this.$store.dispatch('nowAddCar',params);
-            this.$router.push({path:'/nowbuy',query: {gid: params.id} })
+            this.$router.push({path:'/pay',query: {gid: params.id,now:true} })
         }
     },
 

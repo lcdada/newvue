@@ -7,7 +7,8 @@
 <script>
 import DetailBanner from './components/Banner'
 import DetailConent from './components/Conent'
-import {  Tabbar, TabbarItem } from 'vant';
+// import {  Tabbar, TabbarItem } from 'vant';
+import utils from '@/utils/utils'
 export default {
     name:'Detail',
     data (){
@@ -19,26 +20,26 @@ export default {
     components:{
         DetailBanner,
         DetailConent,
-        [Tabbar.name]:Tabbar,
-        [TabbarItem.name]:TabbarItem
+        // [Tabbar.name]:Tabbar,
+        // [TabbarItem.name]:TabbarItem
     },
     methods:{
          init () {
-            let id = this.$route.query.id
+            let goods_id = utils.getUrlKey('goods_id')
+            let id = utils.getUrlKey('goods_class')
+            // console.log(id)
             this.$api.home.getGoodsDetail({
-                goods_id:id
+                goods_id:goods_id
             }).then(params =>{
                  if(params.data.code  == 1000){
                         const data = params.data.data[0];
-                        console.log(data)
+                        // console.log(params)
                         this.Swiperpics = data.pics
                         this.Msessage =data
 
                     }
             })
         }
-       
-        
     },
     mounted () {
         this.init()
