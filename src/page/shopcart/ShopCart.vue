@@ -50,7 +50,7 @@ export default {
         //购物车列表
         carData() {
             return this.$store.state.carList;
-            console.log(this.$store.state.carList)
+            // console.log(this.$store.state.carList)
         },
         
         //商品总数

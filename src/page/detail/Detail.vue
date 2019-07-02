@@ -27,13 +27,13 @@ export default {
          init () {
             let goods_id = utils.getUrlKey('goods_id')
             let id = utils.getUrlKey('goods_class')
-            console.log(id)
+            // console.log(id)
             this.$api.home.getGoodsDetail({
                 goods_id:goods_id
             }).then(params =>{
                  if(params.data.code  == 1000){
                         const data = params.data.data[0];
-                        console.log(params)
+                        // console.log(params)
                         this.Swiperpics = data.pics
                         this.Msessage =data
 

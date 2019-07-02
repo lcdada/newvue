@@ -33,8 +33,8 @@ export default {
             Toast.success('加入购物车');
         },
         buyNow(params){
-        	console.log(params)
-        	console.log(this.$store.state.carList)
+        	// console.log(params)
+        	// console.log(this.$store.state.carList)
             this.$store.dispatch('nowAddCar',params);
             this.$router.push({path:'/pay',query: {gid: params.id,now:true} })
         }

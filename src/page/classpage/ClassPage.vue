@@ -7,7 +7,7 @@
 			  </div>
 			  <div class="item_text">
 				  	<p class="text_title">{{item.goods_name}}</p>
-				   	<p class="text_desc">夏天的黑科技</p>
+				   	<p class="text_desc">{{item.class_name}}</p>
 					<p class="text_price">{{item.score}}</p>
 			  </div>
 		  </li>
@@ -35,12 +35,9 @@ export default {
 				// pagesize:1
 		}).then(params => {
 			if(params.data.code  == 1000){
-					if(params.data.code  == 1000){
-						console.log(params)
 						const data = params.data.data.list
 						this.list = data
 
-				}
 			}
 		})
 		},
