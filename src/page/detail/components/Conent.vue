@@ -34,7 +34,7 @@ export default {
         },
         buyNow(params){
             this.$store.dispatch('nowAddCar',params);
-            this.$router.push({path:'/nowbuy',query: {gid: params.id} })
+            this.$router.push({path:'/pay',query: {gid: params.id} })
         }
     },
 

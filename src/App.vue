@@ -94,7 +94,8 @@ export default {
       this.$router.push({
         path: "./classpage",
         query: { goods_class: item.id }
-      });
+	  });
+	  this.getGoddsList()
 	},
 	goshopcart(){
 		this.$router.push({ path: "./shopcart",})
