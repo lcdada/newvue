@@ -6,7 +6,7 @@ import base from './base'; // 导入接口域名列表
 import axios from '@/utils/http'; // 导入http中创建的axios实例
 import qs from 'qs'; // 根据需求是否导入qs模块
 
-const home = {   
+const home = {
     // 获取礼包绑定的祝福信息 
     getBless (params){
         return axios.post(`${base.home}/exchange/bless`,qs.stringify(params))
@@ -46,10 +46,8 @@ const home = {
     },
     //登陆
     login(params){
-        return axios.post(`${base.first}/v1/account/login`,qs.stringify(params))
+        return axios.post(`http://test.1liwu.cn/index.php?g=Api&m=Shop&a=login`,qs.stringify(params))
     }
-
-        
 }
 
 export default home;

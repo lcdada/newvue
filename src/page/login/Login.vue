@@ -42,11 +42,10 @@ export default {
                 this.$api.home.login({
                     mobile : this.phone_num 
                 }).then(params => {
-                
                         console.log(params)
                 })
             }
-           
+
         }
     }
 }
