@@ -5,7 +5,7 @@
 			<div>
 				<img src="./../../assets/img/address_icon1.png" alt="">
 			</div>
-			<p class="address_icon1_text">添加收货地址</p>
+			<p class="address_icon1_text" @click="openAddress()">添加收货地址</p>
 			<van-icon name="arrow"  class="arrow"/>
 		</div>
 		<ul>
@@ -38,11 +38,11 @@
         <div class="footer_pay">
           <p class="pay_text">付款方式</p>
           <ul>
-			  <li class="pay_icon"  v-for="(item ,index) in paylist" :key="item.id" v-bind:class="{ischeck:index==current}" @lick="addClass(index)">
+			  <li class="pay_icon"  v-for="(item ,index) in paylist" :key="item.id" v-bind:class="{ischeck:index==current}" @click="addClass(index)">
 				   <img :src="item.img" alt="" class="wxpay_icon">
 			  </li>
           </ul>
-          <button class="pay">付款</button> 
+          <button class="pay" @click="pay()">付款</button>
         </div>
 
     </div>
@@ -51,17 +51,21 @@
 
 <script>
 import {Icon,Popup,Toast} from 'vant'
+import utils from '@/utils/utils'
 export default {
      name:'Pay',
      data() {
         return {
+			isWx: false,
 			current:0,
 			paylist:[
 				{	
 					id:1,
 					img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1562042192559&di=a62000847b98985f962a5900b94f4a35&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fbd55f584925b0613fc57e93a5fab6a9beef11b8dc268-bHtvZL_fw658'
 				}
-			]
+			],
+			total:0,
+			address: {}
         }
     },
     components:{
@@ -77,7 +81,6 @@ export default {
         	}else{
         		return this.$store.state.carList;
         	}
-           
         },
         
         //商品总数
@@ -91,19 +94,27 @@ export default {
          //商品总价
         totalPrice() {
         	if(this.$route.query.now!=undefined){
-        		return this.$store.getters.totalPrice1;
+				this.total = this.$store.getters.totalPrice1;
         	}else{
-        		return this.$store.getters.totalPrice;
+				this.total = this.$store.getters.totalPrice;
         	}
         
         }
      
     },
-    created(){
-    	console.log(this.$store.state.carList)
-    	console.log(this.$store.state.nowlist)
-    },
-     methods: {
+	created () {
+		localStorage.setItem('addressInfo',null);
+		var ua = navigator.userAgent.toLowerCase();
+		if(ua.match(/MicroMessenger/i)=="micromessenger") {
+			if(ua.match('wxwork') == "wxwork") {
+				this.isWx = false;
+			}
+			this.isWx = true;
+		} else {
+			this.isWx = false;
+		}
+	},
+	methods: {
         // 增加数量
         addCar(data){
         this.$store.dispatch('addCar',data)
@@ -121,8 +132,124 @@ export default {
 		// },
 		addClass(index){
 			this.current=index
-    }
-    }
+    	},
+
+		 openAddress() {
+			 if(this.isWx) {
+				 wx.ready(function () {
+					 wx.openAddress({
+						 trigger: function (res) {
+							 //alert('用户开始拉出地址');
+						 },
+						 success: function (res) {
+							 //将收货地址信息 回显到 表单里
+							 localStorage.setItem('addressInfo',JSON.stringify(res));
+						 },
+						 cancel: function (res) {
+							 //alert('用户取消拉出地址');
+						 },
+						 fail: function (res) {
+							 //alert(JSON.stringify(res));
+						 }
+					 });
+				 });
+			 }else{
+				 //跳转新页面  编辑地址 并 save 保存到 localStorage addressInfo
+			 }
+		 },
+
+		 pay() {
+//1.判断是否选择收货地址
+			 let addressInfo = '';
+			 addressInfo = localStorage.getItem('addressInfo');
+			 if(!addressInfo || addressInfo === 'null') {
+				 this.openAddress();
+			 }
+
+			 let orderData = {};
+			 this.address = {
+				 username : addressInfo.userName ? addressInfo.userName : '戚金奎',
+				 mobile : addressInfo.telNumber ? addressInfo.telNumber : '18310211825',
+				 province: addressInfo.provinceName ? addressInfo.provinceName : '北京',
+				 city: addressInfo.cityName ? addressInfo.cityName : '北京市',
+				 area: addressInfo.countryName ? addressInfo.countryName : '丰台区',
+				 address : addressInfo.detailInfo ? addressInfo.detailInfo : 'wonima',
+			 };
+
+			 orderData.addressInfo = this.address;
+
+			 if(utils.getUrlKey('now') === null) {
+				 orderData.goodsInfo = this.$store.state.carList;
+				 orderData.action = 'cart';
+			 }else{
+				 orderData.goodsInfo = this.$store.state.nowlist;
+				 orderData.action = 'detail';
+			 }
+
+			 orderData.id = 871;
+			 orderData.total = this.total;
+			 orderData.custom_id = 26;
+
+			 //计算商品数量
+			 //获取支付选项
+			 orderData.payOption = {
+				 weipay: orderData.total,
+				 score: 0,
+				 num: 2,
+				 total: orderData.total,
+				 type: 2,
+			 };
+
+			 this.generateOrder(orderData);
+		 },
+
+		generateOrder(params) {
+			this.$api.home.generateOrder(params).then(params =>{
+				if(params.data.code === 1000){
+					this.weipay({
+						order_sn: params.data.data.order_sn,
+						id: params.data.data.oid,
+						//openid: "{$_GPC['openid']}",
+						openid: 'oepU71hOHh5uoG3kMJJG0IF3QGfI',
+						action: 'orderpay'
+					});
+				}else if(params.data.code === 2002){
+
+				}
+			});
+		},
+		weipay(params) {
+			this.$api.home.weipay(params).then(params =>{
+				if(params.data.code === 1000){
+					if (typeof WeixinJSBridge == "undefined"){
+						if( document.addEventListener ){
+							document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+						}else if (document.attachEvent){
+							document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+							document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+						}
+					}else{
+						WeixinJSBridge.invoke(
+								'getBrandWCPayRequest',
+								JSON.parse(data),
+								function(res){
+									if(res.err_msg == 'get_brand_wcpay_request:ok') {
+										//跳转到成功页面
+									}else{
+										//WeixinJSBridge.log(res.err_msg);
+										/*
+                                                                    alert(res.err_code+res.err_desc+res.err_msg);
+                                        */
+									}
+								}
+						);
+					}
+				}else if(params.data.code === 2002){
+
+				}
+			});
+		}
+	 }
 }
 
 </script>

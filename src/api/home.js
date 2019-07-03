@@ -50,6 +50,12 @@ const home = {
     },
     tologin(params){
         return axios.post(`${base.home}login`,qs.stringify(params))
+    },
+    generateOrder(params){
+        return axios.post(`${base.home}submitOrder`,qs.stringify(params))
+    },
+    weipay(params){
+        return axios.post(`${base.home}weipay`,qs.stringify(params))
     }
 }
 

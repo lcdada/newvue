@@ -45,9 +45,9 @@ const router = new Router({
       path:'/shopcart',
       name:'ShopCart',
       component:ShopCart,
-      meta: {
+      /*meta: {
         type: 'login'  // 是否需要判断是否登录,这里是需要判断
-      }
+      }*/
     },
     {
       path:'/succeed',

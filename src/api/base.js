@@ -7,7 +7,6 @@ const base = {
     home:"http://test.1liwu.cn/index.php?g=Api&m=Shop&a=",
     wx:'http://gift.1liwu.cn/index.php?g=Wechat&m=Goods&a=getGoodsDetail&interface=1',
     shop:'http://47.94.149.236/index.php?g=Api&m=Shop&a='
-
 }
 
 export default base;
