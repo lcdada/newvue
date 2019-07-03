@@ -35,9 +35,8 @@ export default {
 				// pagesize:1
 		}).then(params => {
 			if(params.data.code  == 1000){
-						const data = params.data.data.list
-						this.list = data
-
+				const data = params.data.data.list
+				this.list = data
 			}
 		})
 		},

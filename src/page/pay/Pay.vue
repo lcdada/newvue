@@ -25,7 +25,7 @@
 				</div>
 			</div>
 			
-			<van-icon name="cross" class="delete" @click="deleteFun(item)" />
+			<!-- <van-icon name="cross" class="delete" @click="deleteFun(item)" /> -->
 			</li>
 		</ul>
     </div> 
@@ -38,8 +38,8 @@
         <div class="footer_pay">
           <p class="pay_text">付款方式</p>
           <ul>
-			  <li class="pay_icon"  v-for="(item ,index) in paylist" :key="item.id" v-bind:class="{ischeck:index==current}" @click="addClass(index)">
-				   <img :src="item.img" alt="" class="wxpay_icon">
+			  <li class="pay_icon"  v-for="(item ,index) in paylist" :key="item.id" v-bind:class="{ischeck:index==current}" @lick="addClass(index)">
+				   <img src="./../../assets/img/wx.png" alt="" class="wxpay_icon">
 			  </li>
           </ul>
           <button class="pay" @click="pay()">付款</button>
@@ -61,7 +61,7 @@ export default {
 			paylist:[
 				{	
 					id:1,
-					img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1562042192559&di=a62000847b98985f962a5900b94f4a35&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fbd55f584925b0613fc57e93a5fab6a9beef11b8dc268-bHtvZL_fw658'
+					// img:'./../../assets/img/wx.png'
 				}
 			],
 			total:0,

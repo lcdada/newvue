@@ -28,7 +28,6 @@
 				<div class="header">
 					<van-nav-bar title="蓝卡优选" fixed class="header_nav">
 						<van-icon name="wap-nav" slot="left" color="#000" size="20px" @click="handleMaskClick"/>
-						<p>25454564</p>
 						<van-icon name="manager-o" slot="right" color="#000" size="20px" class="mine"/>
 						<van-icon name="bag-o" slot="right" color="#000" size="20px" @click="goshopcart"/>
 					</van-nav-bar>

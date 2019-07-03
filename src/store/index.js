@@ -7,9 +7,15 @@ export default new Vuex.Store({
     state: {
         carList: [], //购物车的商品
         nowlist:[],//立即购买
+        Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : ''
     },
     plugins: [createPersistedState()],
     mutations: {
+         // 修改token，并将token存入localStorage
+        changeLogin (state, user) {
+            state.Authorization = user.Authorization;
+            localStorage.setItem('Authorization', user.Authorization);
+        },
         // 加
         addCar(state, params) {
             let CarCon = state.carList;
