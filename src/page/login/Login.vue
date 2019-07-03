@@ -100,10 +100,14 @@ export default {
                                 clearInterval(codeTimeTimer);
                             }
                         }, 1000);
+                    }else{
+                        console.log(params)
+                        
                     }
                     
                 }).catch(error => {
-                    alert(params.data.error)
+                    console.log(error)
+                    alert(params.smg)
                 })
             }
         },
@@ -138,6 +142,7 @@ export default {
                     }
                     
                 }).catch(error => {
+                    console.log(params)
                     alert(params.data.error)
                 })
             }

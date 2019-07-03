@@ -1,13 +1,20 @@
 <template>
   <div>
      <div class="goods_list">
-		<div class="choose_address"> 
+		<div class="choose_address" v-if="!showAddress"> 
 			<div>
 				<img src="./../../assets/img/address_icon1.png" alt="">
 			</div>
 			<p class="address_icon1_text" @click="openAddress()">添加收货地址</p>
 			<van-icon name="arrow"  class="arrow"/>
 		</div>
+		<div class="show_address" v-if="showAddress">
+            <div class="peopleInfo">
+                <p class="userName" :userName="userName">{{userName}}</p>
+                <p class="telNumber" :telNumber="telNumber">{{telNumber}}</p>    
+            </div>
+            <p class="address_text" :detail="detail">{{detail}}</p>          
+        </div>
 		<ul>
 			<li  v-for="item in carData" :key="item.id" class="item">
 			<div class="cart_goods">
@@ -65,7 +72,11 @@ export default {
 				}
 			],
 			total:0,
-			address: {}
+			address: {},
+			showAddress:false,
+			userName:'',
+			telNumber:'',
+			detail:''
         }
     },
     components:{
@@ -135,6 +146,24 @@ export default {
     	},
 
 		 openAddress() {
+
+		// var addressInfo={
+        //       userName:'苏克',
+        //       telNumber:'15810227932',
+        //       provinceName:' 山西',
+        //       cityName:'运城',
+        //       countryName:'永济',
+        //       detailInfo:'中关村在线'
+        //   }
+
+		//   localStorage.setItem('addressInfo',JSON.stringify(addressInfo));
+		  
+		//    	this.showAddress = true;
+		// 	this.userName = addressInfo.userName;
+		// 	this.telNumber = addressInfo.telNumber
+		// 	this.detail = addressInfo.provinceName +' '+ addressInfo.cityName+ ' '+ addressInfo.countryName+' '+addressInfo.detailInfo
+
+        //输出地址信息到页面
 			 if(this.isWx) {
 				 wx.ready(function () {
 					 wx.openAddress({
@@ -143,6 +172,10 @@ export default {
 						 },
 						 success: function (res) {
 							 //将收货地址信息 回显到 表单里
+							 this.showAddress = true;
+							 this.userName = res.userName;
+							 this.telNumber = res.telNumber
+							 this.detail = res.provinceName +' '+ res.cityName+ ' '+ res.countryName+' '+res.detailInfo
 							 localStorage.setItem('addressInfo',JSON.stringify(res));
 						 },
 						 cancel: function (res) {
@@ -256,7 +289,7 @@ export default {
 <style lang='stylus' scoped>
 @import '../../assets/styles/mixins.styl' 
     .goods_list 
-        margin-top 0.16rem
+        // margin-top 0.16rem
         padding 0 0.2rem
 		.choose_address
 			position relative
@@ -274,6 +307,24 @@ export default {
 				position: absolute;
 				right: 0.32rem;
 				bottom: 0.4rem;
+		.show_address
+			height 1.4rem
+			background #fff
+			margin-top 0.2rem
+			padding 0.2rem
+			box-sizing border-box
+			border-bottom 0.02rem solid #f5f5f5
+			.peopleInfo
+				display flex
+				justify-content flex-start
+				align-items center
+				line-height 0.4rem
+				.userName,.telNumber
+					font-size 0.28rem
+					font-weight 600
+					color #000
+				.telNumber
+					margin-left 0.8rem
 		.item
 			position relative
 			height 3.72rem 
