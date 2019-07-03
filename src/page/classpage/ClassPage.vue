@@ -25,6 +25,9 @@ export default {
 			goods_class:""
 		}
 	},
+	created(){
+		this.getGoddsList()
+	},
     methods:{
 		getGoddsList(){ 
 			let id = utils.getUrlKey('goods_class')
@@ -46,9 +49,11 @@ export default {
 		}
 	},
 	watch:{
+		
 		 $route(){
-      this.getGoddsList()
-     }
+			 console.log(888)
+      		this.getGoddsList()
+     	}
 	}
 
 }
