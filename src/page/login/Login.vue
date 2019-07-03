@@ -20,6 +20,7 @@
 </template>
 <script>
 import {Notify } from 'vant'
+import { mapMutations } from 'vuex';
 export default {
     name:'Login',
     // created:function () {
@@ -77,12 +78,19 @@ export default {
             console.log(this.code[3])
             console.log(tempValue.length)
             if(tempValue.length == 4){
+                let _this = this;
                 this.$api.home.tologin({
                     mobile : this.phone_num,
                     code:this.smsCode
                 }).then(params => {
                     if(params.data.code == 1000){
+                    //    console.log(params)
                        console.log(params)
+                        _this.userToken = params.data.data.token;
+                        // 将用户token保存到vuex中
+                        _this.changeLogin({ Authorization: _this.userToken });
+                        _this.$router.push('/');
+                        alert('登陆成功');
                        this.seen_login = false;
                        this.codeTime = 60;
                        var codeTimeTimer =  setInterval(()=>{
@@ -103,6 +111,7 @@ export default {
           
     },
     methods:{
+        ...mapMutations(['changeLogin']),
         Login(){
             if (!this.phone_num) {
                Notify({

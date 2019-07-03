@@ -73,19 +73,37 @@ const router = new Router({
   
 });
 router.beforeEach((to, from, next) => {
-  if (to.meta.title) {
-    document.title = to.meta.title
-  }
-  const type = to.meta.type
-  // 判断该路由是否需要登录权限
-  if (type === 'login') {
-    if (window.localStorage.getItem('login')) {
-      next()
-    } else {
-      next('/login')
-    }
+  // if (to.meta.title) {
+  //   document.title = to.meta.title
+  // }
+  // const type = to.meta.type
+  // // 判断该路由是否需要登录权限
+  // if (type === 'login') {
+  //   if (window.localStorage.getItem('login')) {
+  //     next()
+  //   } else {
+  //     next({
+  //       path: '/login',
+  //       query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+  //     })
+  //   }
+  // } else {
+  //   next()  // 确保一定要有next()被调用
+  // };
+  if (to.path === '/login') {
+    next();
   } else {
-    next()  // 确保一定要有next()被调用
+    let token = localStorage.getItem('Authorization');
+    // console.log(token)
+ 
+    if (token === null || token === '') {
+      next({
+        path: '/login',
+        query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+      })
+    } else {
+      next(); // 确保一定要有next()被调用
+    }
   }
 });
 export default router
