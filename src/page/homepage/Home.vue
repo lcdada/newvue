@@ -7,7 +7,11 @@
         <five :five="block_five"  :fiveTitle="text_five"></five>
         <div class="footer">
             <van-collapse v-model="activeName" accordion>
-                <van-collapse-item title="付款方式" name="1">内容</van-collapse-item>
+                <van-collapse-item title="付款方式" name="1">
+                    <p>
+                        
+                    </p>
+                </van-collapse-item>
                 <van-collapse-item title="客服中心" name="2">内容</van-collapse-item>
                 <van-collapse-item title="关于蓝卡优选" name="3">内容</van-collapse-item>
             </van-collapse>

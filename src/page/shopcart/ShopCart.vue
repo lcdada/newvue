@@ -1,45 +1,54 @@
 <template>
-  <div>
-     <div class="goods_list">
-      <ul>
-        <li  v-for="item in carData" :key="item.id" class="item">
-          <div class="cart_goods">
-              <div class="goods_img">
-                  <img class="goods_picture" :src="item.picture" alt="">
-              </div>
-              <div class="item_text">
-                  <p class="goods_name">{{item.goods_name}}</p>
-                  <p class= "goods_title">{{item.title}}</p>
-                  <div class="footer_pn">
-                      <p class="goods_price">￥{{item.price}}</p>
-                      <p class="goods_num"> x{{ item.num }}</p>
-                  </div>
-               
-              </div>
-          </div>
-        
-          <van-icon name="cross" class="delete" @click="deleteFun(item)" />
-        </li>
-      </ul>
-    </div> 
-    <div  class="footer_btn">
-        <div class="totalPrice">
-            <p class="total_text">总金额：</p>
-            <p class="total_text">￥{{totalPrice}}</p>
+    <div>
+        <div class="goods_list" >
+            <ul>
+                <li  v-for="item in carData" :key="item.id" class="item">
+                <div class="cart_goods">
+                    <div class="goods_img">
+                        <img class="goods_picture" :src="item.picture" alt="">
+                    </div>
+                    <div class="item_text">
+                        <p class="goods_name">{{item.goods_name}}</p>
+                        <p class= "goods_title">{{item.title}}</p>
+                        <div class="footer_pn">
+                            <p class="goods_price">￥{{item.price}}</p>
+                            <p class="goods_num"> x{{ item.num }}</p>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+                <van-icon name="cross" class="delete" @click="deleteFun(item)" />
+                </li>
+            </ul>
+        </div> 
+        <div  class="footer_btn" v-if="!showCart">
+            <div class="totalPrice">
+                <p class="total_text">总金额：</p>
+                <p class="total_text">￥{{totalPrice}}</p>
+            </div>
+            <button class="go_exchange" @click="goExchange">去结算</button>
+
         </div>
-        <button class="go_exchange" @click="goExchange">去结算</button>
+        <div class="empty_cart" v-if="showCart">
+            <div>
+                <p>购物车为空</p>
+            </div>
+        </div>
 
     </div>
-  </div>
 </template>
 
 <script>
 
 import {Icon,Popup,Toast} from 'vant'
+import utils from '@/utils/utils'
+
 export default {
     name:'ShopCart',
      data() {
         return {
+            showCart:false
         }
     },
     components:{
@@ -82,17 +91,29 @@ export default {
                  if(params.data.code  == 1000){
                      console.log(params)
                      Toast.success('已删除');
-                     if(this.count == 1){
-                         this.$router.go(-1)
+                     if(this.count == 0){
+                        console.log(this.count)
+                        this.showCart =true
                      }
                     }else{
-                        alert(params.data.error)
-                        
+                        console.log(params.data.error)
+                       
                     }
             })
         },
         goExchange(){
-            this.$router.push({path:'/pay'})
+            // let custom_id = utils.getUrlKey('custom_id')
+            this.$api.home.prepare({
+                custom_id:26,
+            }).then(params =>{
+                 if(params.data.code  == 1000){
+                     console.log(params)
+                     const oid = params.data.data
+                     this.$router.push({path:'/pay',query: {oid:oid} })
+                    }else{
+                        alert(params.data.error)
+                    }
+            })
         }
 
     }

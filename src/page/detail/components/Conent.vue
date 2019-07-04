@@ -45,10 +45,19 @@ export default {
             })
         },
         buyNow(params){
-        	// console.log(params)
-        	// console.log(this.$store.state.carList)
             this.$store.dispatch('nowAddCar',params);
-            this.$router.push({path:'/pay',query: {gid: params.id,now:true} })
+            // let custom_id = utils.getUrlKey('custom_id')
+            this.$api.home.prepare({
+                custom_id:26,
+            }).then(params =>{
+                 if(params.data.code  == 1000){
+                     const oid = params.data.data
+                    //  this.$store.dispatch('nowAddCar',params);
+                     this.$router.push({path:'/pay',query: {gid: params.id,oid:oid,now:true} })
+                    }else{
+                        alert(params.data.error)
+                    }
+            })
         }
     },
 

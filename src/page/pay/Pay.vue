@@ -105,9 +105,9 @@ export default {
          //商品总价
         totalPrice() {
         	if(this.$route.query.now!=undefined){
-				this.total = this.$store.getters.totalPrice1;
+				return this.$store.getters.totalPrice1;
         	}else{
-				this.total = this.$store.getters.totalPrice;
+				return  this.$store.getters.totalPrice;
         	}
         
         }
