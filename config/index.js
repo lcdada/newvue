@@ -50,8 +50,8 @@ module.exports = {
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsSubDirectory: 'integral',
+    assetsPublicPath: '../addons/high_discount',
 
     /**
      * Source Maps

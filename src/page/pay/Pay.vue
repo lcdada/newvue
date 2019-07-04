@@ -8,7 +8,7 @@
 			<p class="address_icon1_text" @click="openAddress()">添加收货地址</p>
 			<van-icon name="arrow"  class="arrow"/>
 		</div>
-		<div class="show_address" v-if="showAddress">
+		<div class="show_address">
             <div class="peopleInfo">
                 <p class="userName" :userName="userName">{{userName}}</p>
                 <p class="telNumber" :telNumber="telNumber">{{telNumber}}</p>    
@@ -172,10 +172,12 @@ export default {
 						 },
 						 success: function (res) {
 							 //将收货地址信息 回显到 表单里
-							 this.showAddress = true;
-							 this.userName = res.userName;
-							 this.telNumber = res.telNumber
-							 this.detail = res.provinceName +' '+ res.cityName+ ' '+ res.countryName+' '+res.detailInfo
+							 $('.choose_address').hide();
+							 $('.show_address').show();
+
+							 $('.userName').html(res.userName);
+							 $('.telNumber').html(res.telNumber);
+							 $('.address_text').html(res.provinceName +' '+ res.cityName+ ' '+ res.countryName+' '+res.detailInfo);
 							 localStorage.setItem('addressInfo',JSON.stringify(res));
 						 },
 						 cancel: function (res) {
@@ -239,9 +241,15 @@ export default {
 		generateOrder(params) {
 			this.$api.home.generateOrder(params).then(params =>{
 				if(params.data.code === 1000){
+
+					/*
+					        return Message::returnMsg(['status'=>0,'order_sn'=>'l2019062115611029767335289','oid'=>870,'create_time'=>time()]);
+
+					 */
+
 					this.weipay({
-						order_sn: params.data.data.order_sn,
-						id: params.data.data.oid,
+						order_sn: 'l2019062115611029767335289',
+						id: '870',
 						//openid: "{$_GPC['openid']}",
 						openid: 'oepU71hOHh5uoG3kMJJG0IF3QGfI',
 						action: 'orderpay'
@@ -253,6 +261,8 @@ export default {
 		},
 		weipay(params) {
 			this.$api.home.weipay(params).then(params =>{
+
+				alert(params.data.code);
 				if(params.data.code === 1000){
 					if (typeof WeixinJSBridge == "undefined"){
 						if( document.addEventListener ){
@@ -264,15 +274,13 @@ export default {
 					}else{
 						WeixinJSBridge.invoke(
 								'getBrandWCPayRequest',
-								JSON.parse(data),
+								JSON.parse(JSON.stringify(params.data)),
 								function(res){
 									if(res.err_msg == 'get_brand_wcpay_request:ok') {
 										//跳转到成功页面
 									}else{
 										//WeixinJSBridge.log(res.err_msg);
-										/*
                                                                     alert(res.err_code+res.err_desc+res.err_msg);
-                                        */
 									}
 								}
 						);
