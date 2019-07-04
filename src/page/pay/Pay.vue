@@ -76,7 +76,8 @@ export default {
 			showAddress:false,
 			userName:'',
 			telNumber:'',
-			detail:''
+			detail:'',
+			gnum : 0
         }
     },
     components:{
@@ -199,59 +200,65 @@ export default {
 			 addressInfo = localStorage.getItem('addressInfo');
 			 if(!addressInfo || addressInfo === 'null') {
 				 this.openAddress();
-			 }
-
-			 let orderData = {};
-			 this.address = {
-				 username : addressInfo.userName ? addressInfo.userName : '戚金奎',
-				 mobile : addressInfo.telNumber ? addressInfo.telNumber : '18310211825',
-				 province: addressInfo.provinceName ? addressInfo.provinceName : '北京',
-				 city: addressInfo.cityName ? addressInfo.cityName : '北京市',
-				 area: addressInfo.countryName ? addressInfo.countryName : '丰台区',
-				 address : addressInfo.detailInfo ? addressInfo.detailInfo : 'wonima',
-			 };
-
-			 orderData.addressInfo = this.address;
-
-			 if(utils.getUrlKey('now') === null) {
-				 orderData.goodsInfo = this.$store.state.carList;
-				 orderData.action = 'cart';
 			 }else{
-				 orderData.goodsInfo = this.$store.state.nowlist;
-				 orderData.action = 'detail';
+				 let orderData = {};
+				 this.address = {
+					 username : addressInfo.userName ? addressInfo.userName : '戚金奎',
+					 mobile : addressInfo.telNumber ? addressInfo.telNumber : '18310211825',
+					 province: addressInfo.provinceName ? addressInfo.provinceName : '北京',
+					 city: addressInfo.cityName ? addressInfo.cityName : '北京市',
+					 area: addressInfo.countryName ? addressInfo.countryName : '丰台区',
+					 address : addressInfo.detailInfo ? addressInfo.detailInfo : 'wonima',
+				 };
+
+				 orderData.addressInfo = this.address;
+
+				 if(utils.getUrlKey('now') === null) {
+					 orderData.goodsInfo = this.$store.state.carList;
+					 orderData.action = 'cart';
+				 }else{
+					 orderData.goodsInfo = this.$store.state.nowlist;
+					 orderData.action = 'detail';
+				 }
+
+				 for(var i in orderData.goodsInfo) {
+					 this.gnum += parseInt(orderData.goodsInfo[i]['num']);
+				 }
+
+				 orderData.id = utils.getUrlKey('oid');
+				 orderData.total = this.totalPrice;
+				 orderData.custom_id = utils.getUrlKey('custom_id') ? utils.getUrlKey('custom_id') : 26;
+
+				 //计算商品数量
+				 //获取支付选项
+				 orderData.payOption = {
+					 weipay: orderData.total,
+					 score: 0,
+					 num: this.gnum,
+					 total: orderData.total,
+					 type: 2,
+				 };
+
+				 this.generateOrder(orderData);
 			 }
-
-			 orderData.id = 871;
-			 orderData.total = this.total;
-			 orderData.custom_id = 26;
-
-			 //计算商品数量
-			 //获取支付选项
-			 orderData.payOption = {
-				 weipay: orderData.total,
-				 score: 0,
-				 num: 2,
-				 total: orderData.total,
-				 type: 2,
-			 };
-
-			 this.generateOrder(orderData);
 		 },
+
+		getCookie(name) {
+			var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+			if (arr = document.cookie.match(reg))
+				return (arr[2]);
+			else
+				return null;
+		},
 
 		generateOrder(params) {
 			this.$api.home.generateOrder(params).then(params =>{
 				if(params.data.code === 1000){
-
-					/*
-					        return Message::returnMsg(['status'=>0,'order_sn'=>'l2019062115611029767335289','oid'=>870,'create_time'=>time()]);
-
-					 */
-
 					this.weipay({
-						order_sn: 'l2019062115611029767335289',
-						id: '870',
-						//openid: "{$_GPC['openid']}",
-						openid: 'oepU71hOHh5uoG3kMJJG0IF3QGfI',
+						order_sn: params.data.data.order_sn,
+						id: params.data.data.oid,
+						openid: this.getCookie('openid'),
+						//openid: 'oYLAfwXXBplOVcKf7G3-TQ1tFQOM',
 						action: 'orderpay'
 					});
 				}else if(params.data.code === 2002){
@@ -261,8 +268,6 @@ export default {
 		},
 		weipay(params) {
 			this.$api.home.weipay(params).then(params =>{
-
-				alert(params.data.code);
 				if(params.data.code === 1000){
 					if (typeof WeixinJSBridge == "undefined"){
 						if( document.addEventListener ){
@@ -274,13 +279,13 @@ export default {
 					}else{
 						WeixinJSBridge.invoke(
 								'getBrandWCPayRequest',
-								JSON.parse(JSON.stringify(params.data)),
+								params.data.data,
 								function(res){
 									if(res.err_msg == 'get_brand_wcpay_request:ok') {
 										//跳转到成功页面
 									}else{
 										//WeixinJSBridge.log(res.err_msg);
-                                                                    alert(res.err_code+res.err_desc+res.err_msg);
+										//alert(res.err_code+res.err_desc+res.err_msg);
 									}
 								}
 						);
