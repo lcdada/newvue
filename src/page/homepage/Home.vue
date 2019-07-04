@@ -9,7 +9,7 @@
             <van-collapse v-model="activeName" accordion>
                 <van-collapse-item title="付款方式" name="1">
                     <p>
-                        
+
                     </p>
                 </van-collapse-item>
                 <van-collapse-item title="客服中心" name="2">内容</van-collapse-item>
@@ -82,13 +82,10 @@ export default {
                 per_page:100
             }).then(params => {
                 if(params.data.code  == 1000){
-                     if(params.data.code  == 1000){
                         const data_three = params.data.data.list
                         const text_three = params.data.data.list[0]
-                        // console.log(text_three)
                         this.block_three = data_three
                         this.text_three = text_three
-                    }
                 }
             })
         },
@@ -99,34 +96,28 @@ export default {
                 per_page:100
             }).then(params => {
                 if(params.data.code  == 1000){
-                     if(params.data.code  == 1000){
                         const data_four = params.data.data.list[0]
                         this.data_four = data_four
-                    }
                 }
             })
         },
           getBlockMsgfive(){
              this.$api.home.block({
-                block_id:5 ,
+                block_id:5,
                 page:1,
                 per_page:100
             }).then(params => {
                 if(params.data.code  == 1000){
-                     if(params.data.code  == 1000){
-                        const data_three = params.data.data.list
-                        const text_three = params.data.data.list[0]
-                        this.block_five = data_three
-                        this.text_five = text_three
-                    }
+                        const data_five = params.data.data.list
+                        const text_five = params.data.data.list[0]
+                        this.block_five = data_five
+                        this.text_five = text_five
                 }
             })
         }
         
     },
      mounted () {
-        // this.getBless(),
-        // this.getGoodsList()
         this.getBlockMsg()
         this.getBlockMsgtow()
         this.getBlockMsgthree()

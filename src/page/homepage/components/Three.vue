@@ -53,7 +53,7 @@ export default {
 		}).then(params => {
 			if(params.data.code  == 1000){
 					if(params.data.code  == 1000){
-					this.$router.push({path:'./classpage', query: { goods_class: goods_class }})
+					this.$router.push({path:'./classpage', query: { goods_class: 11 }})
 
 				}
 			}
