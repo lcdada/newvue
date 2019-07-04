@@ -49,6 +49,7 @@ export default new Vuex.Store({
                     "goods_name":params.goods_name,
                     "id": params.id,
                     "title": params.class_name,
+                    "price": params.market_price,
                     "picture":params.thumb,
                     "num": 1,
                 }

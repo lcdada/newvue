@@ -51,7 +51,6 @@ export default {
 	watch:{
 		
 		 $route(){
-			 console.log(888)
       		this.getGoddsList()
      	}
 	}

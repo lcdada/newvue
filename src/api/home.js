@@ -65,6 +65,10 @@ const home = {
     },
     weipay(params) {
         return axios.post(`${base.home}weipay`, qs.stringify(params))
+    },
+    // 预先生成订单
+    prepare(params){
+        return axios.post(`${base.home}prepareOrder`, qs.stringify(params))
     }
 }
 

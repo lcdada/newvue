@@ -30,7 +30,7 @@
 <script>
 import { Swipe, SwipeItem } from 'vant';
 export default {
-	name:'Three',
+	name:'Five',
 	props:{
 		five:Array,
 		fiveTitle:Object
