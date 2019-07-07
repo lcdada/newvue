@@ -40,6 +40,8 @@ export default {
 			if(params.data.code  == 1000){
 				const data = params.data.data.list
 				this.list = data
+			}else if (params.data.code  == 2009) {
+					this.$router.push({path:'/login'})
 			}
 		})
 		},
