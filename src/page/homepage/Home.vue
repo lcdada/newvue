@@ -60,6 +60,8 @@ export default {
                 if(params.data.code  == 1000){
                     const data = params.data.data.list[0]
                     this.block_one = data
+                }else if (params.data.code  == 2009) {
+                    this.$router.push({path:'/login'})
                 }
             })
         },
@@ -72,6 +74,8 @@ export default {
                 if(params.data.code  == 1000){
                     const data_two = params.data.data.list[0]
                     this.block_two = data_two
+                }else if (params.data.code  == 2009) {
+                    this.$router.push({path:'/login'})
                 }
             })
         },
@@ -86,6 +90,8 @@ export default {
                         const text_three = params.data.data.list[0]
                         this.block_three = data_three
                         this.text_three = text_three
+                }else if (params.data.code  == 2009) {
+                    this.$router.push({path:'/login'})
                 }
             })
         },
@@ -98,6 +104,8 @@ export default {
                 if(params.data.code  == 1000){
                         const data_four = params.data.data.list[0]
                         this.data_four = data_four
+                }else if (params.data.code  == 2009) {
+                    this.$router.push({path:'/login'})
                 }
             })
         },
@@ -112,6 +120,8 @@ export default {
                         const text_five = params.data.data.list[0]
                         this.block_five = data_five
                         this.text_five = text_five
+                }else if (params.data.code  == 2009) {
+                    this.$router.push({path:'/login'})
                 }
             })
         }

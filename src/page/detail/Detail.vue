@@ -31,13 +31,15 @@ export default {
             this.$api.home.getGoodsDetail({
                 goods_id:goods_id
             }).then(params =>{
-                 if(params.data.code  == 1000){
-                        const data = params.data.data[0];
-                        // console.log(params)
-                        this.Swiperpics = data.pics
-                        this.Msessage =data
+                if(params.data.code  == 1000){
+                    const data = params.data.data[0];
+                    // console.log(params)
+                    this.Swiperpics = data.pics
+                    this.Msessage =data
 
-                    }
+                }else if (params.data.code  == 2009) {
+                    this.$router.push({path:'/login'})
+                }
             })
         }
     },
