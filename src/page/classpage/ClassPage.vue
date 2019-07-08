@@ -88,7 +88,7 @@ export default {
 				width 50%
 				.item_img
 					width 100%
-					min-height 4rem
+					height 4rem
 					.img
 						width 100%
 						height 100%
