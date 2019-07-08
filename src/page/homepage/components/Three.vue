@@ -52,7 +52,7 @@ export default {
 			// pagesize:1
 		}).then(params => {
 			if(params.data.code  == 1000){
-					if(params.data.code  == 1000){
+				if(params.data.code  == 1000){
 					this.$router.push({path:'./classpage', query: { goods_class: 11 }})
 
 				}
