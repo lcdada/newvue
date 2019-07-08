@@ -4,7 +4,7 @@
 		  <p class="title_b">{{fiveTitle.banner_title}}</p>
 		  <p class="title_s">{{fiveTitle.banner_desc}}</p>
 	  </div>
-	  <div>
+	  <div class="block_height">
 		  <van-swipe :width="210" :show-indicators="false">
 			  <van-swipe-item v-for="item in five" :key="item.id" @click.stop>
 				  <div @click="gourl(item)">
@@ -60,21 +60,23 @@ export default {
 		.title_s
 			font-size 0.28rem
 			color #666
-	.item_img
-		width 4.2rem
-		.itemImg
-			width 100%
-	.itemText
-		display flex
-		justify-content center
-		flex-direction column
-		align-items center
-		.text_1
-			font-size 0.28rem
-			color #000
-			font-weight 600
-		.text
-			line-height 0.4rem
+	.block_height
+		height 6rem
+		.item_img
+			width 4.2rem
+			.itemImg
+				width 100%
+		.itemText
+			display flex
+			justify-content center
+			flex-direction column
+			align-items center
+			.text_1
+				font-size 0.28rem
+				color #000
+				font-weight 600
+			.text
+				line-height 0.4rem
 	.goplay
 		width: 2.36rem;
 		height: 0.84rem;
