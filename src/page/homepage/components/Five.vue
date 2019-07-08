@@ -5,7 +5,7 @@
 		  <p class="title_s">{{fiveTitle.banner_desc}}</p>
 	  </div>
 	  <div class="block_height">
-		  <van-swipe :width="210" :show-indicators="false">
+		  <!-- <van-swipe :width="210" :show-indicators="false">
 			  <van-swipe-item v-for="item in five" :key="item.id" @click.stop>
 				  <div @click="gourl(item)">
 					  <div class=" item_img">
@@ -19,7 +19,21 @@
 				  </div>
 			  </van-swipe-item>
 			  
-		  </van-swipe>
+		  </van-swipe> -->
+		  <swiper :options="swiperOption" ref="mySwiper">
+              <swiper-slide v-for="item in five" :key="item.id" @click.stop>
+                <div @click="gourl(item)">
+					  <div class="item_img">
+						  <img :src="item.img" alt="" class="itemImg">
+					  </div>
+					  <div class="itemText">
+						  <p class="text_1 text">{{item.title}}</p>
+						  <p class="text_2 text">{{item.desc}}</p>
+						  <p class="text_3 text">￥{{item.new_price}}</p>
+					  </div>
+				  </div>
+              </swiper-slide>
+          </swiper>
 	  </div>
 	  <div>
 		  <button class="goplay">去逛逛</button>
@@ -28,16 +42,25 @@
 </template>
 
 <script>
-import { Swipe, SwipeItem } from 'vant';
+import 'swiper/dist/css/swiper.css'
+import {Swipe, SwipeSlide } from 'vue-awesome-swiper'
 export default {
 	name:'Five',
 	props:{
 		five:Array,
 		fiveTitle:Object
 	},
+	data(){
+		return{
+			 swiperOption: {
+                 slidesPerView: 'auto',
+                 spaceBetween: 30,
+            } 
+		}
+	},
 	components:{
-		[Swipe.name]:Swipe,
-		[SwipeItem.name]:SwipeItem
+		Swipe,
+        SwipeSlide,
     },
     methods:{
         gourl(data){
@@ -62,6 +85,8 @@ export default {
 			color #666
 	.block_height
 		height 6rem
+		.swiper-slide 
+			width: 60%;
 		.item_img
 			width 4.2rem
 			.itemImg

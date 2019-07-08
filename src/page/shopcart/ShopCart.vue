@@ -5,13 +5,13 @@
                 <li  v-for="item in carData" :key="item.id" class="item">
                 <div class="cart_goods">
                     <div class="goods_img">
-                        <img class="goods_picture" :src="item.picture" alt="">
+                        <img class="goods_picture" :src="item.thumb" alt="">
                     </div>
                     <div class="item_text">
                         <p class="goods_name">{{item.goods_name}}</p>
                         <p class= "goods_title">{{item.title}}</p>
                         <div class="footer_pn">
-                            <p class="goods_price">￥{{item.price}}</p>
+                            <p class="goods_price">￥{{item.score}}</p>
                             <p class="goods_num"> x{{ item.num }}</p>
                         </div>
                     
@@ -68,7 +68,7 @@ export default {
         //购物车列表
         carData() {
             return this.$store.state.carList;
-            // console.log(this.$store.state.carList)
+            console.log(this.$store.state.carList)
         },
         
         //商品总数
@@ -77,18 +77,19 @@ export default {
         },
          //商品总价
         totalPrice() {
-        return this.$store.getters.totalPrice;
+            return this.$store.getters.totalPrice;
+            console.log(this.$store.getters.totalPrice)
         }
      
     },
      methods: {
         // 增加数量
         addCar(data){
-        this.$store.dispatch('addCar',data)
+            this.$store.dispatch('addCar',data)
         },
         // 减数量
         reduceFun(data){
-        this.$store.dispatch('reducedCar',data)
+            this.$store.dispatch('reducedCar',data)
         },
         // 删除
         deleteFun(data){
@@ -100,12 +101,12 @@ export default {
                      console.log(params)
                      Toast.success('已删除');
                      if(this.count == 0){
+                         console.log(this.count)
                         console.log(this.count)
                         this.showCart =true
                      }
                     }else{
                         console.log(params.data.error)
-                       
                     }
             })
         },
@@ -156,14 +157,14 @@ export default {
                 justify-content flex-start
                 align-items center
                 .goods_img
-                    width 2.8rem
+                    min-width 2.8rem
                     height 3.14rem
                     .goods_picture
                         width 100%
                         height 100%
                         display block
                 .item_text
-                    flex: 1;
+                    width 4rem
                     margin-left: 0.32rem;
                     height: 3.14rem;
                     padding-top 0.18rem
@@ -172,7 +173,7 @@ export default {
                         font-size 0.28rem
                         color #333
                         font-weight 600
-                        width 50%
+                        width 70%
                         ellipsis()
                     .goods_title
                         ellipsis()

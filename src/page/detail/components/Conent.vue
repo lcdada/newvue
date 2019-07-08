@@ -6,12 +6,12 @@
           <!-- <p class="price">{{message.market_price}}</p> -->
       </div>
       <div class="detail_conent" v-html='message.summary'>{{message.summary}}</div>
-        <van-tabbar class="footer">
-            <div  class="footer_btn">
-                <button class="btn addcart"  @click="addCart(message)">加入购物车</button>
-                <button class="btn buynow" @click="buyNow(message)">立即购买</button>
-            </div>
-        </van-tabbar>
+      <van-tabbar class="footer">
+          <div  class="footer_btn">
+              <button class="btn addcart"  @click="addCart(message)">加入购物车</button>
+              <button class="btn buynow" @click="buyNow(message)">立即购买</button>
+          </div>
+      </van-tabbar>
   </div>
 </template>
 
@@ -81,7 +81,8 @@ export default {
             font-size 0.32rem
             line-height auto
     .detail_conent
-       padding-bottom 2rem
+       padding 0 0.2rem
+       margin-bottom 2rem
     .footer
         height 1.24rem
         .footer_btn

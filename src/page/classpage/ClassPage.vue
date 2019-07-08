@@ -1,5 +1,8 @@
 <template>
   <div class="goods_list">
+	  <div class="pagetite">
+		  {{PageTitle}}
+	  </div>
 	  <ul class="goodsList">
 		  <li class="item" v-for="item in list" :key="item.id" @click="godetail(item)">
 			  <div class="item_img">
@@ -8,7 +11,7 @@
 			  <div class="item_text">
 				  	<p class="text_title">{{item.goods_name}}</p>
 				   	<p class="text_desc">{{item.class_name}}</p>
-					<p class="text_price">{{item.score}}</p>
+					<p class="text_price">￥{{item.score}}</p>
 			  </div>
 		  </li>
 	  </ul>
@@ -22,11 +25,14 @@ export default {
 	data(){
 		return{
 			list:[],
-			goods_class:""
+			goods_class:"",
+			PageTitle:''
 		}
 	},
 	created(){
-		this.getGoddsList()
+		this.getGoddsList();
+		let PageTitle = utils.getUrlKey('goods_title')
+		this.PageTitle = PageTitle
 	},
     methods:{
 		getGoddsList(){ 
@@ -51,7 +57,9 @@ export default {
 	watch:{
 		
 		 $route(){
-      		this.getGoddsList()
+			  this.getGoddsList();
+			  let PageTitle = utils.getUrlKey('goods_title');
+			  this.PageTitle = PageTitle
      	}
 	}
 
@@ -62,15 +70,28 @@ export default {
 	@import '../../assets/styles/mixins.styl'	
 	.goods_list
 		padding 0.2rem
+		.pagetite
+			height 1rem
+			margin 0 auto
+			text-align center
+			line-height 1rem
+			color #333
+			font-size 0.28rem
+			font-weight 600
 		.goodsList
 			display flex
 			justify-content flex-start
 			flex-wrap wrap
 			align-items center
+			box-sizing border-box
 			.item
 				width 50%
-				.img
+				.item_img
 					width 100%
+					min-height 4rem
+					.img
+						width 100%
+						height 100%
 			.item_text
 				text-align center
 				padding-top 0.16rem

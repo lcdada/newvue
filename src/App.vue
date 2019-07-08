@@ -47,9 +47,9 @@
 				</div>
 				<div class="content_view">
 					<keep-alive>
-						<router-view v-if="$route.meta.keepAlive" v-on:public_header="public_header" v-on:public_footer="public_footer"></router-view>
+						<router-view v-if="$route.meta.keepAlive" v-on:public_header="public_header" v-on:public_footer="public_footer" v-wechat-title='$route.meta.title'></router-view>
 					</keep-alive>
-						<router-view v-if="!$route.meta.keepAlive"></router-view>
+						<router-view v-if="!$route.meta.keepAlive" v-wechat-title='$route.meta.title'></router-view>
 					<!-- <app-footer v-if="footer_show"></app-footer> -->
 				</div>
 				
@@ -102,20 +102,23 @@ export default {
       });
     },
     goClassList(item) {
+		console.log(item)
       this.show = false;
       this.$router.push({
         path: "./classpage",
-        query: { goods_class: item.id }
+		query: { 
+			goods_class: item.id,
+			goods_title:item.name
+		}
 	  });
 	},
 	goshopcart(){
 		this.$router.push({ path: "./shopcart",})
 	},
 	gohome(){
-		// this.$router.push({path:'/'});
-		this.show = true;
-		this.$router.go(0);
+		this.show = false;
 		this.$router.push({path:'/'});
+		
 	}
   },
   
@@ -162,7 +165,8 @@ export default {
 			align-items center
 			.logo_block
 				width 2.06rem
-				height 0.48rem 				
+				height 0.48rem
+				margin-left 0.8rem 				
 				.logo_img
 					width 100%
 					height 100%

@@ -14,6 +14,7 @@ import api from './api' // 导入api接口
 import 'babel-polyfill' //解决手机浏览器默认不支持promise。
 import utils from './utils/utils'
 import DrawerLayout from 'vue-drawer-layout'
+import VueWechatTitle from 'vue-wechat-title'
 
 Vue.prototype.$api = api; // 将api挂载到vue的原型上
 Vue.prototype.$utils = utils
@@ -23,6 +24,7 @@ fastClick.attach(document.body)
 Vue.use(VueAwesomeSwiper)
 Vue.use(DrawerLayout)
 Vue.use(VueResource)
+Vue.use(VueWechatTitle)
 
 new Vue({
   el: '#app',
