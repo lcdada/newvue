@@ -69,6 +69,10 @@ const home = {
     // 预先生成订单
     prepare(params){
         return axios.post(`${base.home}prepareOrder`, qs.stringify(params))
+    },
+    // 检测配送区域
+    checkGoodsRegion(params){
+        return axios.post(`${base.home}checkGoodsRegion`, qs.stringify(params))
     }
 }
 

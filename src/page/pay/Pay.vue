@@ -147,25 +147,24 @@ export default {
 			this.current=index
     	},
 
-		 openAddress() {
+		openAddress() {
 
-		// var addressInfo={
-        //       userName:'苏克',
-        //       telNumber:'15810227932',
-        //       provinceName:' 山西',
-        //       cityName:'运城',
-        //       countryName:'永济',
-        //       detailInfo:'中关村在线'
-        //   }
+			var addressInfo={
+				  userName:'苏克',
+				  telNumber:'15810227932',
+				  provinceName:' 山西',
+				  cityName:'运城',
+				  countryName:'永济',
+				  detailInfo:'中关村在线'
+			}
 
-		//   localStorage.setItem('addressInfo',JSON.stringify(addressInfo));
+		  	localStorage.setItem('addressInfo',JSON.stringify(addressInfo));
 		  
-		//    	this.showAddress = true;
-		// 	this.userName = addressInfo.userName;
-		// 	this.telNumber = addressInfo.telNumber
-		// 	this.detail = addressInfo.provinceName +' '+ addressInfo.cityName+ ' '+ addressInfo.countryName+' '+addressInfo.detailInfo
+		   	this.showAddress = true;
+			this.userName = addressInfo.userName;
+			this.telNumber = addressInfo.telNumber
+			this.detail = addressInfo.provinceName +' '+ addressInfo.cityName+ ' '+ addressInfo.countryName+' '+addressInfo.detailInfo
 
-        //输出地址信息到页面
 			 if(this.isWx) {
 				 wx.ready(function () {
 					 wx.openAddress({
@@ -196,57 +195,69 @@ export default {
 		 },
 
 		 pay() {
-			 if(this.flag){
-				 //1.判断是否选择收货地址
-				let addressInfo = '';
-				addressInfo = localStorage.getItem('addressInfo');
-				if(!addressInfo || addressInfo === 'null') {
-					this.openAddress();
+			 //1.判断是否选择收货地址
+			let addressInfo = '';
+			addressInfo = localStorage.getItem('addressInfo');
+			if(!addressInfo || addressInfo === 'null') {
+				this.openAddress();
+			}else{
+				let orderData = {};
+				this.address = {
+					username : addressInfo.userName ? addressInfo.userName : '戚金奎',
+					mobile : addressInfo.telNumber ? addressInfo.telNumber : '18310211825',
+					province: addressInfo.provinceName ? addressInfo.provinceName : '北京',
+					city: addressInfo.cityName ? addressInfo.cityName : '北京市',
+					area: addressInfo.countryName ? addressInfo.countryName : '丰台区',
+					address : addressInfo.detailInfo ? addressInfo.detailInfo : 'wonima',
+					// spare_name : addressInfo.
+				};
+
+				orderData.addressInfo = this.address;
+
+				if(utils.getUrlKey('now') === null) {
+					orderData.goodsInfo = this.$store.state.carList;
+					orderData.action = 'cart';
 				}else{
-					let orderData = {};
-					this.address = {
-						username : addressInfo.userName ? addressInfo.userName : '戚金奎',
-						mobile : addressInfo.telNumber ? addressInfo.telNumber : '18310211825',
-						province: addressInfo.provinceName ? addressInfo.provinceName : '北京',
-						city: addressInfo.cityName ? addressInfo.cityName : '北京市',
-						area: addressInfo.countryName ? addressInfo.countryName : '丰台区',
-						address : addressInfo.detailInfo ? addressInfo.detailInfo : 'wonima',
-						// spare_name : addressInfo.
-					};
+					orderData.goodsInfo = this.$store.state.nowlist;
+					orderData.action = 'detail';
+				}
 
-					orderData.addressInfo = this.address;
+				for(var i in orderData.goodsInfo) {
+					this.gnum += parseInt(orderData.goodsInfo[i]['num']);
+				}
 
-					if(utils.getUrlKey('now') === null) {
-						orderData.goodsInfo = this.$store.state.carList;
-						orderData.action = 'cart';
-					}else{
-						orderData.goodsInfo = this.$store.state.nowlist;
-						orderData.action = 'detail';
-					}
+				orderData.id = utils.getUrlKey('oid');
+				orderData.total = this.totalPrice;
+				orderData.custom_id = utils.getUrlKey('custom_id') ? utils.getUrlKey('custom_id') : 26;
 
-					for(var i in orderData.goodsInfo) {
-						this.gnum += parseInt(orderData.goodsInfo[i]['num']);
-					}
+				//计算商品数量
+				//获取支付选项
+				orderData.payOption = {
+					weipay: orderData.total,
+					score: 0,
+					num: this.gnum,
+					total: orderData.total,
+					type: 2,
+				};
 
-					orderData.id = utils.getUrlKey('oid');
-					orderData.total = this.totalPrice;
-					orderData.custom_id = utils.getUrlKey('custom_id') ? utils.getUrlKey('custom_id') : 26;
-
-					//计算商品数量
-					//获取支付选项
-					orderData.payOption = {
-						weipay: orderData.total,
-						score: 0,
-						num: this.gnum,
-						total: orderData.total,
-						type: 2,
-					};
-
-					this.generateOrder(orderData);
-				 }
-				 this.flag=false
-			}
+				//验证配送区域
+				this.checkGoodsRegion(orderData);
+			 }
 		 },
+
+		checkGoodsRegion(orderData) {
+			this.$api.home.checkGoodsRegion({
+				gid: orderData.goodsInfo,
+				addre: orderData.addressInfo
+			}).then(params =>{
+				if(params.data.code === 1000){
+					//生成订单
+					this.generateOrder(orderData);
+				}else if(params.data.code === 2002){
+
+				}
+			});
+		},
 
 		getCookie(name) {
 			var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
@@ -259,13 +270,17 @@ export default {
 		generateOrder(params) {
 			this.$api.home.generateOrder(params).then(params =>{
 				if(params.data.code === 1000){
-					this.weipay({
-						order_sn: params.data.data.order_sn,
-						id: params.data.data.oid,
-						openid: this.getCookie('openid'),
-						//openid: 'oYLAfwXXBplOVcKf7G3-TQ1tFQOM',
-						action: 'orderpay'
-					});
+					if(params.data.data.status === 1) {
+
+					}else{
+						this.weipay({
+							order_sn: params.data.data.order_sn,
+							id: params.data.data.oid,
+							openid: this.getCookie('openid'),
+							//openid: 'oYLAfwXXBplOVcKf7G3-TQ1tFQOM',
+							action: 'orderpay'
+						});
+					}
 				}else if(params.data.code === 2002){
 
 				}
