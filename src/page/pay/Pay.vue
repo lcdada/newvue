@@ -64,7 +64,7 @@
 			<div>
 				<van-radio-group v-model="radio">
 				<van-cell-group v-for="(item,index) in cartList" :key="index">
-					<van-cell  clickable @click="radio = index">
+					<van-cell  clickable @click="radio = 'index'">
 						<div class="cart_item">
 							<div class="item_left">
 								{{item.score}}
@@ -74,7 +74,7 @@
 								<p>可抵扣：{{item.score}}</p>
 							</div>
 						</div>
-						<van-radio slot="right-icon" name="{index}" />
+						<van-radio slot="right-icon" name="index" />
 					</van-cell>
 				</van-cell-group>
 				</van-radio-group>
@@ -128,12 +128,6 @@ export default {
         return {
 			isWx: false,
 			current:0,
-			// paylist:[
-			// 	{	
-			// 		id:1,
-			// 		// img:'./../../assets/img/wx.png'
-			// 	}
-			// ],
 			total:0,
 			address: {},
 			showAddress:false,
