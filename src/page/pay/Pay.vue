@@ -345,9 +345,7 @@ export default {
 		 },
 
 		checkGoodsRegion(orderData) {
-			this.generateOrder(orderData);
-
-			/*this.$api.home.checkGoodsRegion({
+			this.$api.home.checkGoodsRegion({
 				gid: orderData.goodsInfo,
 				addre: orderData.addressInfo
 			}).then(params =>{
@@ -357,7 +355,7 @@ export default {
 				}else if(params.data.code === 2002){
 					alert("该区域暂不支持配送");
 				}
-			});*/
+			});
 		},
 
 		getCookie(name) {
