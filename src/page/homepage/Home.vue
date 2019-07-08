@@ -6,7 +6,7 @@
         <four :four="data_four"></four>
         <five :five="block_five"  :fiveTitle="text_five"></five>
         <div class="footer">
-            <van-collapse v-model="activeName" accordion>
+            <!-- <van-collapse v-model="activeName" accordion>
                 <van-collapse-item title="付款方式" name="1">
                     <p>
 
@@ -14,7 +14,7 @@
                 </van-collapse-item>
                 <van-collapse-item title="客服中心" name="2">内容</van-collapse-item>
                 <van-collapse-item title="关于蓝卡优选" name="3">内容</van-collapse-item>
-            </van-collapse>
+            </van-collapse> -->
             <p class="text_center">蓝卡优选科技优选公司</p>
         </div>
     </div>
