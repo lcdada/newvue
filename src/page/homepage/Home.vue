@@ -1,10 +1,13 @@
 <template>
-    <div class="home">   
-        <one :one="block_one"></one>
-        <two :two="block_two" ></two>
-        <three :three="block_three" :title="text_three"></three>
-        <four :four="data_four"></four>
-        <five :five="block_five"  :fiveTitle="text_five"></five>
+    <div>
+        <div class="home">
+            <one :one="block_one"></one>
+            <two :two="block_two" ></two>
+            <three :three="block_three" :title="text_three"></three>
+            <four :four="data_four"></four>
+            <five :five="block_five"  :fiveTitle="text_five"></five>     
+        </div>   
+       
         <div class="footer">
             <!-- <van-collapse v-model="activeName" accordion>
                 <van-collapse-item title="付款方式" name="1">
@@ -15,7 +18,9 @@
                 <van-collapse-item title="客服中心" name="2">内容</van-collapse-item>
                 <van-collapse-item title="关于蓝卡优选" name="3">内容</van-collapse-item>
             </van-collapse> -->
-            <p class="text_center">蓝卡优选科技优选公司</p>
+            <p class="text_center">京ICP备10013037号-5</p>
+            <p class="text_center p_padding">北京蓝卡优选科技有限公司 | 营业执照</p>
+            <p class="text_center">Copyright 2019 蓝卡优选  版权所有</p>
         </div>
     </div>
 </template>
@@ -131,11 +136,15 @@ export default {
     .home
         padding 0 .2rem
         background #fff
-        .footer
-            height auto
-            background #000
-            color #fff
-            .text_center
-                text-align center
-                padding 1rem 0
+    .footer
+        height auto
+        background #222
+        color #fff
+        padding 1rem 0
+        .text_center
+            text-align center
+            line-height 0.4rem
+        .p_padding
+            padding 0.2rem 0
+            
  </style>
