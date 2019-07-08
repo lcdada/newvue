@@ -132,7 +132,7 @@ export default {
 
 }
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
     .home
         padding 0 .2rem
         background #fff

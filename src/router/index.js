@@ -19,25 +19,32 @@ const router = new Router({
       name:'HomePage',
       component:HomePage,
       meta: {
-        keepAlive: false //缓存
+        keepAlive: false, //缓存,
+        title:'首页'
       }
     },
     {
       path:'/detail',
       name:'Detail',
-      component:Detail
+      component:Detail,
+      meta:{
+        title:'商品详情'
+      }
     },
     {
       path:'./address',
       name:'Address',
-      component:Address
+      component:Address,
+      meta:{
+        title:'商品详情'
+      }
     },
     {
       path:'/test',
       name:'Test',
       component :Test,
       meta: {
-        keepAlive: false //缓存
+        keepAlive: false,//缓存
       }
 
     },
@@ -46,29 +53,41 @@ const router = new Router({
       name:'ShopCart',
       component:ShopCart,
       meta: {
-        title: '',
+        title: '购物车',
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
       },
     },
     {
       path:'/succeed',
       name:'Succeed',
-      component:Succeed
+      component:Succeed,
+      meta:{
+        title:'购买成功'
+      }
     },
     {
       path:'/classpage',
       name:'ClassPage',
-      component:ClassPage
+      component:ClassPage,
+      meta:{
+        title:'商品分类'
+      }
     },
     {
       path:'/pay',
       name:'Pay',
-      component:Pay
+      component:Pay,
+      meta:{
+        title:'支付'
+      }
     },
     {
       path:'/login',
       name:'Login',
-      component:Login
+      component:Login,
+      meta:{
+        title:'登陆'
+      }
     }
   ]
   
