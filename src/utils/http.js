@@ -93,7 +93,24 @@ instance.interceptors.request.use(
 // 响应拦截器
 instance.interceptors.response.use(    
     // 请求成功
-    res => res.status === 200 ? Promise.resolve(res) : Promise.reject(res),    
+    // res => res.status === 200 ? Promise.resolve(res) : Promise.reject(res),
+    res => {
+        // console.log(res.data.code)
+        // console.log(res)
+        if(res.status === 200){
+            if(res.data.code == '2009'){
+                router.replace({
+                    path: '/login',        
+                    query: {
+                        redirect: router.currentRoute.fullPath
+                    }
+                });
+            }
+            return Promise.resolve(res)
+
+        } 
+        
+    },
     // 请求失败
     error => {
         const { response } = error;

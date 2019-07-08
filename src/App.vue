@@ -162,7 +162,7 @@ export default {
 			align-items center
 			.logo_block
 				width 2.06rem
-				height 0.4rem 				
+				height 0.48rem 				
 				.logo_img
 					width 100%
 					height 100%

@@ -40,7 +40,7 @@ export default {
                      console.log(params)
                      Toast.success('加入购物车');
                     }else{
-                        alert(params.data.error)
+                        // alert(params.data.error)
                     }
             })
         },
@@ -55,7 +55,7 @@ export default {
                     //  this.$store.dispatch('nowAddCar',params);
                      this.$router.push({path:'/pay',query: {gid: params.id,oid:oid,now:true} })
                     }else{
-                        alert(params.data.error)
+                        // alert(params.data.error)
                     }
             })
         }

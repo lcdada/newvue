@@ -47,7 +47,7 @@ export default {
 		gourlList(){
 			this.$api.home.classList({
 			goods_class:11,
-			custom_id:19,
+			custom_id:26,
 			pageindex:1,
 			// pagesize:1
 		}).then(params => {

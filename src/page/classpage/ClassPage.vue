@@ -33,13 +33,15 @@ export default {
 			let id = utils.getUrlKey('goods_class')
 			this.$api.home.classList({
 				goods_class:id,
-				custom_id:19,
+				custom_id:26,
 				pageindex:1,
 				// pagesize:1
 		}).then(params => {
 			if(params.data.code  == 1000){
 				const data = params.data.data.list
 				this.list = data
+			}else if (params.data.code  == 2009) {
+					this.$router.push({path:'/login'})
 			}
 		})
 		},

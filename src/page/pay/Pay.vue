@@ -15,6 +15,11 @@
             </div>
             <p class="address_text" :detail="detail">{{detail}}</p>          
         </div>
+		<!-- <div class="spare">
+			<p class="spare_text">备用联系人</p>
+			<input type="text" placeholder="姓名" class="inpt spare_name">
+			<input type="text" placeholder="联系方式"  class="inpt spare_phone">
+		</div> -->
 		<ul>
 			<li  v-for="item in carData" :key="item.id" class="item">
 			<div class="cart_goods">
@@ -35,7 +40,35 @@
 			<!-- <van-icon name="cross" class="delete" @click="deleteFun(item)" /> -->
 			</li>
 		</ul>
-    </div> 
+		<div class="popCar">
+			<p class="popCar_text">礼品卡</p>
+			<div class="show_popCar" @click="showPopblock">
+				<p>选择礼品卡</p>
+				<p class="symbol">...</p>
+			</div>
+		</div>
+		<van-popup
+		v-model="show"
+		position="bottom"
+		:style="{ height: '73%' }"
+		class="bindCart"
+		>
+			<div class="pop_title">
+				<p class="title_left">添加礼品卡</p>
+				<van-icon name="cross" size="18" color="#979797" @click="close_new"/>
+			</div>
+			<div class="hint_text">
+				礼物卡是蓝卡优选认证的带有价值的兑换卡…
+			</div>
+			<div class="cart_center">
+				<p class="cart_text">请输入卡号密码</p>
+				<input type="text" v-model="cartNum" class="inpt" placeholder="请输入卡号">
+				<input type="text" v-model="cartPass" class="inpt" placeholder="请输入密码">
+				<button class="btn_cart">绑定并使用</button>
+			</div>
+		</van-popup>
+    </div>
+	
     <div  class="footer_btn">
         <div class="totalPrice">
             <p class="total_text">总金额：</p>
@@ -43,12 +76,12 @@
         </div>
         <!-- <button class="go_exchange" @click="goExchange">去结算</button> -->
         <div class="footer_pay">
-          <p class="pay_text">付款方式</p>
+          <!-- <p class="pay_text">付款方式</p>
           <ul>
 			  <li class="pay_icon"  v-for="(item ,index) in paylist" :key="item.id" v-bind:class="{ischeck:index==current}" @lick="addClass(index)">
 				   <img src="./../../assets/img/wx.png" alt="" class="wxpay_icon">
 			  </li>
-          </ul>
+          </ul> -->
           <button class="pay" @click="pay()">付款</button>
         </div>
 
@@ -78,7 +111,8 @@ export default {
 			telNumber:'',
 			detail:'',
 			gnum : 0,
-			flag:true
+			flag:true,
+			show: false
         }
     },
     components:{
@@ -145,7 +179,13 @@ export default {
 		// },
 		addClass(index){
 			this.current=index
-    	},
+		},
+		showPopblock(){
+			this.show = true
+		},
+		close_new(){
+			this.show = false
+		},
 
 		openAddress() {
 
@@ -238,6 +278,8 @@ export default {
 					num: this.gnum,
 					total: orderData.total,
 					type: 2,
+					//gift_card:368,
+					//gc_account:888888888
 				};
 
 				//验证配送区域
@@ -358,6 +400,29 @@ export default {
 					color #000
 				.telNumber
 					margin-left 0.8rem
+		.spare
+			height: 3.5rem;
+			display: flex;
+			flex-direction: column;
+			padding: 0.4rem;
+			box-sizing: border-box;
+			border-bottom: 0.02rem solid #f5f5f5;
+			border-top: 0.02rem solid #f5f5f5;
+			margin-top: 0.2rem;
+			.spare_text
+				line-height 0.44rem
+				color #333
+			.inpt
+				width 100%
+				height 0.88rem
+				background #ebebeb
+				padding-left 0.28rem
+			.inpt::placeholder
+				color #333
+			.spare_name
+				margin-top 0.2rem
+			.spare_phone
+				margin-top 0.32rem
 		.item
 			position relative
 			height 3.72rem 
@@ -420,6 +485,68 @@ export default {
 			margin-top 0.48rem
 			background #000
 			color #fff
+		.popCar
+			height 1.84rem
+			box-sizing border-box
+			padding 0.3rem 0.16rem 0 0.16rem
+			border-bottom: 0.02rem solid #f5f5f5;
+			.popCar_text
+				font-size 0.28rem
+				color #000
+				font-weight 600
+				line-height 0.44rem
+			.show_popCar
+				display flex
+				justify-content space-between
+				align-items center
+				line-height 0.4rem
+				margin-top 0.32rem
+				.symbol
+					font-size 0.4rem
+					padding-bottom 0.2rem
+		.bindCart
+			padding 0.32rem
+			box-sizing border-box
+			.pop_title
+				display flex 
+				justify-content space-between
+				align-items center
+				line-height 0.44rem
+				.title_left
+					font-size 0.28rem
+					color #000
+					font-weight 600
+			.hint_text
+				width 100%
+				height 0.76rem
+				line-height 0.76rem
+				padding-left 0.3rem
+				margin-top 0.32rem
+				background #f5f5f5
+				border-radius 0.4rem
+				box-sizing border-box
+			.cart_center
+				height 4.36rem
+				margin-top 0.84rem
+				padding 0 0.4rem
+				.cart_text
+					font-size 0.28rem
+					color #333
+					line-height 0.4rem
+				.inpt
+					width 100%
+					border-bottom 1px solid #979797
+					margin-top 0.32rem
+					line-height 0.8rem
+				.inpt::placeholder
+					color #a6a6a6
+				.btn_cart
+					width 100%
+					height 0.88rem
+					margin-top 0.8rem
+					background #000
+					color #fff
+					border-radius 0.4rem
 		.footer_btn
 			padding 0 0.2rem
 			.totalPrice
@@ -431,6 +558,7 @@ export default {
 					font-size 0.28rem
 					font-weight 600
 					color #000
+					line-height 0.44rem
 		.footer_pay
 			padding 0.32rem
 			.pay_text
