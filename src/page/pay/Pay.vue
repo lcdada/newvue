@@ -15,11 +15,11 @@
             </div>
             <p class="address_text" :detail="detail">{{detail}}</p>          
         </div>
-		<div class="spare">
+		<!-- <div class="spare">
 			<p class="spare_text">备用联系人</p>
 			<input type="text" placeholder="姓名" class="inpt spare_name">
 			<input type="text" placeholder="联系方式"  class="inpt spare_phone">
-		</div>
+		</div> -->
 		<ul>
 			<li  v-for="item in carData" :key="item.id" class="item">
 			<div class="cart_goods">

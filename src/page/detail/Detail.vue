@@ -37,8 +37,6 @@ export default {
                     this.Swiperpics = data.pics
                     this.Msessage =data
 
-                }else if (params.data.code  == 2009) {
-                    this.$router.push({path:'/login'})
                 }
             })
         }

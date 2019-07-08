@@ -94,9 +94,9 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(    
     // 请求成功
     // res => res.status === 200 ? Promise.resolve(res) : Promise.reject(res),
-    function(res){
-        console.log(res.data.code)
-        console.log(res)
+    res => {
+        // console.log(res.data.code)
+        // console.log(res)
         if(res.status === 200){
             if(res.data.code == '2009'){
                 router.replace({
