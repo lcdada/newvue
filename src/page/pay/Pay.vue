@@ -242,6 +242,7 @@ export default {
 				this.openAddress();
 			}else{
 				let orderData = {};
+				addressInfo = JSON.parse(addressInfo);
 				this.address = {
 					username : addressInfo.userName ? addressInfo.userName : '戚金奎',
 					mobile : addressInfo.telNumber ? addressInfo.telNumber : '18310211825',
@@ -278,17 +279,18 @@ export default {
 					num: this.gnum,
 					total: orderData.total,
 					type: 2,
-					//gift_card:368,
+					gift_card:0,
 					//gc_account:888888888
 				};
-
 				//验证配送区域
 				this.checkGoodsRegion(orderData);
 			 }
 		 },
 
 		checkGoodsRegion(orderData) {
-			this.$api.home.checkGoodsRegion({
+			this.generateOrder(orderData);
+
+			/*this.$api.home.checkGoodsRegion({
 				gid: orderData.goodsInfo,
 				addre: orderData.addressInfo
 			}).then(params =>{
@@ -296,9 +298,9 @@ export default {
 					//生成订单
 					this.generateOrder(orderData);
 				}else if(params.data.code === 2002){
-
+					alert("该区域暂不支持配送");
 				}
-			});
+			});*/
 		},
 
 		getCookie(name) {
