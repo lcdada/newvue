@@ -61,30 +61,23 @@
 			<div class="hint_text">
 				礼物卡是蓝卡优选认证的带有价值的兑换卡…
 			</div>
-			<!-- <div class="cart_center">
-				<p class="cart_text">请输入卡号密码</p>
-				<input type="text" v-model="cartNum" class="inpt" placeholder="请输入卡号">
-				<input type="text" v-model="cartPass" class="inpt" placeholder="请输入密码">
-				<button class="btn_cart">绑定并使用</button>
-			</div> -->
 			<div>
-				<van-checkbox-group v-model="result">
-					<van-cell-group>
-						<van-cell
-						v-for="(item, index) in list"
-						clickable
-						:key="item"
-						:title="`复选框 ${item}`"
-						@click="toggle(index)"
-						>
-						<van-checkbox
-							:name="item"
-							ref="checkboxes"
-							slot="right-icon"
-						/>
-						</van-cell>
-					</van-cell-group>
-				</van-checkbox-group>
+				<van-radio-group v-model="radio">
+				<van-cell-group v-for="(item,index) in cartList" :key="index">
+					<van-cell  clickable @click="radio = index">
+						<div class="cart_item">
+							<div class="item_left">
+								{{item.score}}
+							</div>
+							<div class="item_right">
+								<p>卡号：{{item.account}}</p>
+								<p>可抵扣：{{item.score}}</p>
+							</div>
+						</div>
+						<van-radio slot="right-icon" name="{index}" />
+					</van-cell>
+				</van-cell-group>
+				</van-radio-group>
 			</div>
 		</van-popup>
 		<van-popup
@@ -101,7 +94,7 @@
 				<p class="cart_text">请输入卡号密码</p>
 				<input type="text" v-model="cartNum" class="inpt" placeholder="请输入卡号">
 				<input type="text" v-model="cartPass" class="inpt" placeholder="请输入密码">
-				<button class="btn_cart">绑定并使用</button>
+				<button class="btn_cart" @click="bindNew">绑定并使用</button>
 			</div>
 		</van-popup>
     </div>
@@ -127,7 +120,7 @@
 </template>
 
 <script>
-import {Icon,Popup,Toast, Cell,CellGroup,Checkbox,CheckboxGroup } from 'vant'
+import {Icon,Popup,Toast, Cell,CellGroup,Checkbox, RadioGroup, Radio} from 'vant'
 import utils from '@/utils/utils'
 export default {
      name:'Pay',
@@ -135,12 +128,12 @@ export default {
         return {
 			isWx: false,
 			current:0,
-			paylist:[
-				{	
-					id:1,
-					// img:'./../../assets/img/wx.png'
-				}
-			],
+			// paylist:[
+			// 	{	
+			// 		id:1,
+			// 		// img:'./../../assets/img/wx.png'
+			// 	}
+			// ],
 			total:0,
 			address: {},
 			showAddress:false,
@@ -153,8 +146,9 @@ export default {
 			cartPass:'',
 			show: false,
 			show_cardList:false,
-			list: ['a', 'b', 'c'],
-			result: ['a', 'b']
+			 radio: '0',
+			 cartList:[],
+			 itemscore:''
         }
     },
     components:{
@@ -164,7 +158,8 @@ export default {
 		[Cell.name]:Cell,
 		[Checkbox.name]:Checkbox,
 		[CellGroup.name]:CellGroup,
-		[CheckboxGroup .name]:CheckboxGroup 
+		[RadioGroup.name]:RadioGroup,
+		[Radio.name]:Radio
 		
     },
     computed: { 
@@ -231,7 +226,16 @@ export default {
 			this.current=index
 		},
 		showPopblock(){
-			this.show_cardList = true
+			this.show_cardList = true;
+			this.$api.home.getAccountList({
+
+			}).then(params =>{
+				if(params.data.code === 1000){
+					const cartlist = params.data.data
+					console.log(cartlist)
+					this.cartList = cartlist
+				}
+			});
 		},
 		close_new(){
 			
@@ -239,6 +243,21 @@ export default {
 		},
 		bind_newCart(){
 			this.show = true
+		},
+		bindNew(){
+			this.$api.home.bindAccount({
+				account:this.cartNum,
+				pwd:this.cartPass
+			}).then(params =>{
+				console.log(params)
+				if(params.data.code === 1000){
+					const Fscore = params.data.data
+					console.log(Fscore)
+					this.itemscore = Fscore
+				}
+			});
+			this.show = false
+			this.showPopblock()
 		},
 		close_newCarts(){
 			this.show = false
@@ -576,6 +595,21 @@ export default {
 					font-weight 600
 				.new_cart
 					padding-left 1.6rem
+			.cart_item
+				width 5.2rem
+				height 1.48rem
+				border 0.02rem solid #ccc
+				border-radius 0.16rem
+				display flex
+				justify-content space-between
+				.item_left
+					width 30%;
+					line-height 1.48rem
+					text-align center
+				.item_right
+					flex 1
+					text-align center
+					line-height 0.74rem
 			.hint_text
 				width 100%
 				height 0.76rem

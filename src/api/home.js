@@ -73,7 +73,15 @@ const home = {
     // 检测配送区域
     checkGoodsRegion(params){
         return axios.post(`${base.home}checkGoodsRegion`, qs.stringify(params))
-    }
+    },
+    //获取绑定卡号列表
+    getAccountList(params){
+        return axios.post(`${base.home}accountList`, qs.stringify(params))
+    },
+    //绑定新卡
+    bindAccount(params){
+        return axios.post(`${base.home}bindAccount`, qs.stringify(params))
+    },
 }
 
 export default home;

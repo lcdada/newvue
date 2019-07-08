@@ -2,17 +2,17 @@
     <div>
         <div class="login" v-show="seen_login">
             <p class="login_text">登录/注册</p>
-            <input type="text" class="phone_num" placeholder="请输入手机号" v-model="phone_num">
+            <input  class="phone_num" placeholder="请输入手机号" v-model="phone_num" type="number" pattern="[0-9]*">
             <button class="btn_verify" @click="Login">验证手机号</button>
         </div>
         <div class="login_code" v-show="!seen_login">
             <p class="login_text">登录/注册</p>
             <p class="phone_num_text">{{ this.phone_num }}</p>
             <div class="codeAll">
-                <input id="first" class="inputStyle" v-model="code[0]"  type="text"/>
-                <input id="second" class="inputStyle" v-model="code[1]"  type="text"/>
-                <input id="third" class="inputStyle" v-model="code[2]"  type="text"/>
-                <input id="forth" class="inputStyle" v-model="code[3]" name="code[3]"  type="text"/>
+                <input id="first" class="inputStyle" v-model="code[0]"  type="number" pattern="[0-9]*"/>
+                <input id="second" class="inputStyle" v-model="code[1]"  type="number" pattern="[0-9]*"/>
+                <input id="third" class="inputStyle" v-model="code[2]"  type="number" pattern="[0-9]*"/>
+                <input id="forth" class="inputStyle" v-model="code[3]" name="code[3]"  type="number" pattern="[0-9]*"/>
             </div>
             <button class="btn_verify">重新获取验证码{{codeTime}}s</button>
         </div>
