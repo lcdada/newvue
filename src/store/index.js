@@ -35,8 +35,8 @@ export default new Vuex.Store({
                     "goods_name":params.goods_name,
                     "id": params.id,
                     "title": params.class_name,
-                    "price": params.market_price,
-                    "picture":params.thumb,
+                    "score": params.market_price,
+                    "thumb":params.thumb,
                     "num": 1,
                 }
                 this.state.carList.push(obj)
@@ -49,8 +49,8 @@ export default new Vuex.Store({
                     "goods_name":params.goods_name,
                     "id": params.id,
                     "title": params.class_name,
-                    "price": params.market_price,
-                    "picture":params.thumb,
+                    "score": params.market_price,
+                    "thumb":params.thumb,
                     "num": 1,
                 }
                 this.state.nowlist.push(obj)
@@ -183,7 +183,7 @@ export default new Vuex.Store({
             let money = 0;
             if (Carlen.length != 0) {
                 Carlen.forEach((item) => {
-                    money += item.price * item.num
+                    money += item.score * item.num
                 })
                 return money;
             } else {
@@ -195,7 +195,7 @@ export default new Vuex.Store({
             let money = 0;
             if (Carlen.length != 0) {
                 Carlen.forEach((item) => {
-                    money += item.price * item.num
+                    money += item.score * item.num
                 })
                 return money;
             } else {

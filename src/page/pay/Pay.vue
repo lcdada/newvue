@@ -24,13 +24,13 @@
 			<li  v-for="item in carData" :key="item.id" class="item">
 			<div class="cart_goods">
 				<div class="goods_img">
-					<img class="goods_picture" :src="item.picture" alt="">
+					<img class="goods_picture" :src="item.thumb" alt="">
 				</div>
 				<div class="item_text">
 					<p class="goods_name">{{item.goods_name}}</p>
 					<p class= "goods_title">{{item.title}}</p>
 					<div class="footer_pn">
-						<p class="goods_price">￥{{item.price}}</p>
+						<p class="goods_price">￥{{item.score}}</p>
 						<p class="goods_num"> x{{ item.num }}</p>
 					</div>
 				
@@ -41,12 +41,52 @@
 			</li>
 		</ul>
 		<div class="popCar">
-			<p class="popCar_text">礼品卡</p>
+			<!-- <p class="popCar_text">礼品卡</p> -->
 			<div class="show_popCar" @click="showPopblock">
 				<p>选择礼品卡</p>
 				<p class="symbol">...</p>
 			</div>
 		</div>
+		<van-popup
+		v-model="show_cardList"
+		position="bottom"
+		:style="{ height: '73%' }"
+		class="bindCart"
+		>
+			<div class="pop_title">
+				<p class="title_left">礼品卡</p>
+				<p class="new_cart" @click="bind_newCart">绑定新卡</p>
+				<van-icon name="cross" size="18" color="#979797" @click="close_new"/>
+			</div>
+			<div class="hint_text">
+				礼物卡是蓝卡优选认证的带有价值的兑换卡…
+			</div>
+			<!-- <div class="cart_center">
+				<p class="cart_text">请输入卡号密码</p>
+				<input type="text" v-model="cartNum" class="inpt" placeholder="请输入卡号">
+				<input type="text" v-model="cartPass" class="inpt" placeholder="请输入密码">
+				<button class="btn_cart">绑定并使用</button>
+			</div> -->
+			<div>
+				<van-checkbox-group v-model="result">
+					<van-cell-group>
+						<van-cell
+						v-for="(item, index) in list"
+						clickable
+						:key="item"
+						:title="`复选框 ${item}`"
+						@click="toggle(index)"
+						>
+						<van-checkbox
+							:name="item"
+							ref="checkboxes"
+							slot="right-icon"
+						/>
+						</van-cell>
+					</van-cell-group>
+				</van-checkbox-group>
+			</div>
+		</van-popup>
 		<van-popup
 		v-model="show"
 		position="bottom"
@@ -54,11 +94,8 @@
 		class="bindCart"
 		>
 			<div class="pop_title">
-				<p class="title_left">添加礼品卡</p>
-				<van-icon name="cross" size="18" color="#979797" @click="close_new"/>
-			</div>
-			<div class="hint_text">
-				礼物卡是蓝卡优选认证的带有价值的兑换卡…
+				<p class="title_left"></p>
+				<van-icon name="cross" size="18" color="#979797" @click="close_newCarts"/>
 			</div>
 			<div class="cart_center">
 				<p class="cart_text">请输入卡号密码</p>
@@ -90,7 +127,7 @@
 </template>
 
 <script>
-import {Icon,Popup,Toast} from 'vant'
+import {Icon,Popup,Toast, Cell,CellGroup,Checkbox,CheckboxGroup } from 'vant'
 import utils from '@/utils/utils'
 export default {
      name:'Pay',
@@ -112,13 +149,23 @@ export default {
 			detail:'',
 			gnum : 0,
 			flag:true,
-			show: false
+			cartNum:'',
+			cartPass:'',
+			show: false,
+			show_cardList:false,
+			list: ['a', 'b', 'c'],
+			result: ['a', 'b']
         }
     },
     components:{
         [Icon.name]:Icon,
         [Popup.name]:Popup,
-        [Toast.name]:Toast     
+		[Toast.name]:Toast,
+		[Cell.name]:Cell,
+		[Checkbox.name]:Checkbox,
+		[CellGroup.name]:CellGroup,
+		[CheckboxGroup .name]:CheckboxGroup 
+		
     },
     computed: { 
         //购物车列表
@@ -162,6 +209,9 @@ export default {
 		}
 	},
 	methods: {
+		toggle(index) {
+			this.$refs.checkboxes[index].toggle();
+		},
         // 增加数量
         addCar(data){
         this.$store.dispatch('addCar',data)
@@ -181,9 +231,16 @@ export default {
 			this.current=index
 		},
 		showPopblock(){
-			this.show = true
+			this.show_cardList = true
 		},
 		close_new(){
+			
+			this.show_cardList = false
+		},
+		bind_newCart(){
+			this.show = true
+		},
+		close_newCarts(){
 			this.show = false
 		},
 
@@ -486,7 +543,8 @@ export default {
 			background #000
 			color #fff
 		.popCar
-			height 1.84rem
+			// height 1.84rem
+			height 1.2rem
 			box-sizing border-box
 			padding 0.3rem 0.16rem 0 0.16rem
 			border-bottom: 0.02rem solid #f5f5f5;
@@ -500,7 +558,7 @@ export default {
 				justify-content space-between
 				align-items center
 				line-height 0.4rem
-				margin-top 0.32rem
+				// margin-top 0.32rem	
 				.symbol
 					font-size 0.4rem
 					padding-bottom 0.2rem
@@ -516,6 +574,8 @@ export default {
 					font-size 0.28rem
 					color #000
 					font-weight 600
+				.new_cart
+					padding-left 1.6rem
 			.hint_text
 				width 100%
 				height 0.76rem
@@ -525,6 +585,7 @@ export default {
 				background #f5f5f5
 				border-radius 0.4rem
 				box-sizing border-box
+				ellipsis()
 			.cart_center
 				height 4.36rem
 				margin-top 0.84rem
