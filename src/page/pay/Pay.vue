@@ -349,7 +349,7 @@ export default {
 				gid: orderData.goodsInfo,
 				addre: orderData.addressInfo
 			}).then(params =>{
-				if(params.data.code === 1000){
+				if(params.data.status === 101){
 					//生成订单
 					this.generateOrder(orderData);
 				}else if(params.data.code === 2002){

@@ -39,7 +39,7 @@ export default {
 			let id = utils.getUrlKey('goods_class')
 			this.$api.home.classList({
 				goods_class:id,
-				custom_id:26,
+				custom_id:utils.getUrlKey('custom_id') ? utils.getUrlKey('custom_id') : 26,
 				pageindex:1,
 				// pagesize:1
 		}).then(params => {
