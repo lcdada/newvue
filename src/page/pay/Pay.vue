@@ -44,6 +44,7 @@
 			<!-- <p class="popCar_text">礼品卡</p> -->
 			<div class="show_popCar" @click="showPopblock">
 				<p>选择礼品卡</p>
+				<p v-if="!showText">以绑定1张卡号</p>
 				<p class="symbol">...</p>
 			</div>
 		</div>
@@ -61,30 +62,24 @@
 			<div class="hint_text">
 				礼物卡是蓝卡优选认证的带有价值的兑换卡…
 			</div>
-			<!-- <div class="cart_center">
-				<p class="cart_text">请输入卡号密码</p>
-				<input type="text" v-model="cartNum" class="inpt" placeholder="请输入卡号">
-				<input type="text" v-model="cartPass" class="inpt" placeholder="请输入密码">
-				<button class="btn_cart">绑定并使用</button>
-			</div> -->
-			<div>
-				<van-checkbox-group v-model="result">
-					<van-cell-group>
-						<van-cell
-						v-for="(item, index) in list"
-						clickable
-						:key="item"
-						:title="`复选框 ${item}`"
-						@click="toggle(index)"
-						>
-						<van-checkbox
-							:name="item"
-							ref="checkboxes"
-							slot="right-icon"
-						/>
-						</van-cell>
-					</van-cell-group>
-				</van-checkbox-group>
+			<div class="wt-radio">
+				<ul>
+					<li v-for="(item,index) in cartList" :key="index"  @click="changeItem(index,item)" class="itemCarts">
+						<div class="cart_item">
+							<div class="item_left">
+								{{item.score}}
+							</div>
+							<div class="item_right">
+								<p>卡号：{{item.account}}</p>
+								<p>可抵扣：{{item.score}}</p>
+							</div>
+						</div>
+						<div>
+							<span :class="activeClass == index ? 'color' : 'iconImg' " ></span>
+						</div>
+					</li>
+					<button class="confirm_btn" @click="confiemBtn">确定</button>
+				</ul>
 			</div>
 		</van-popup>
 		<van-popup
@@ -101,15 +96,19 @@
 				<p class="cart_text">请输入卡号密码</p>
 				<input type="text" v-model="cartNum" class="inpt" placeholder="请输入卡号">
 				<input type="text" v-model="cartPass" class="inpt" placeholder="请输入密码">
-				<button class="btn_cart">绑定并使用</button>
+				<button class="btn_cart" @click="bindNew">绑定并使用</button>
 			</div>
 		</van-popup>
     </div>
 	
     <div  class="footer_btn">
+		<div class="totalPrice" v-if="!privilege">
+			<p class="privilege">优惠</p>
+            <p class="privilege_pice">-￥{{this.score}}</p>
+		</div>
         <div class="totalPrice">
             <p class="total_text">总金额：</p>
-            <p class="total_text">￥{{totalPrice}}</p>
+            <p class="total_text"> <span class='old_price' v-if="!oldPrice">￥{{totalPrice}}</span> <span>￥{{totalPrice - this.score}}</span></p>
         </div>
         <!-- <button class="go_exchange" @click="goExchange">去结算</button> -->
         <div class="footer_pay">
@@ -127,7 +126,7 @@
 </template>
 
 <script>
-import {Icon,Popup,Toast, Cell,CellGroup,Checkbox,CheckboxGroup } from 'vant'
+import {Icon,Popup,Toast, Cell,CellGroup,Checkbox, RadioGroup, Radio} from 'vant'
 import utils from '@/utils/utils'
 export default {
      name:'Pay',
@@ -135,12 +134,6 @@ export default {
         return {
 			isWx: false,
 			current:0,
-			paylist:[
-				{	
-					id:1,
-					// img:'./../../assets/img/wx.png'
-				}
-			],
 			total:0,
 			address: {},
 			showAddress:false,
@@ -153,8 +146,17 @@ export default {
 			cartPass:'',
 			show: false,
 			show_cardList:false,
-			list: ['a', 'b', 'c'],
-			result: ['a', 'b']
+			radio: '0',
+			cartList:[],
+			itemscore:'',
+			activeClass : -1,
+			chooseItem :{},
+			showText:true,
+			account:'',
+			score:'',
+			privilege:true,
+			oldPrice:true
+
         }
     },
     components:{
@@ -164,7 +166,8 @@ export default {
 		[Cell.name]:Cell,
 		[Checkbox.name]:Checkbox,
 		[CellGroup.name]:CellGroup,
-		[CheckboxGroup .name]:CheckboxGroup 
+		[RadioGroup.name]:RadioGroup,
+		[Radio.name]:Radio
 		
     },
     computed: { 
@@ -231,7 +234,16 @@ export default {
 			this.current=index
 		},
 		showPopblock(){
-			this.show_cardList = true
+			this.show_cardList = true;
+			this.$api.home.getAccountList({
+
+			}).then(params =>{
+				if(params.data.code === 1000){
+					const cartlist = params.data.data
+					console.log(cartlist)
+					this.cartList = cartlist
+				}
+			});
 		},
 		close_new(){
 			
@@ -240,10 +252,38 @@ export default {
 		bind_newCart(){
 			this.show = true
 		},
+		bindNew(){
+			this.$api.home.bindAccount({
+				account:this.cartNum,
+				pwd:this.cartPass
+			}).then(params =>{
+				console.log(params)
+				if(params.data.code === 1000){
+					const Fscore = params.data.data
+					console.log(Fscore)
+					this.itemscore = Fscore
+				}
+			});
+			this.show = false
+			this.showPopblock()
+		},
 		close_newCarts(){
 			this.show = false
 		},
-
+		changeItem(index,data){
+			this.activeClass = index;
+			this.chooseItem = data
+			this.account = data.account
+			this.score = data.score
+			console.log(this.score)
+		},
+		confiemBtn(){
+			// console.log(this.chooseItem)
+			this.show_cardList = false
+			this.showText = false
+			this.privilege =false
+			this.oldPrice = false
+		},
 		openAddress() {
 
 			var addressInfo={
@@ -331,13 +371,13 @@ export default {
 				//计算商品数量
 				//获取支付选项
 				orderData.payOption = {
-					weipay: orderData.total,
+					weipay: orderData.total-this.score,
 					score: 0,
 					num: this.gnum,
 					total: orderData.total,
 					type: 2,
-					gift_card:0,
-					//gc_account:888888888
+					gift_card:this.score,
+					gc_account:this.account
 				};
 				//验证配送区域
 				this.checkGoodsRegion(orderData);
@@ -576,6 +616,47 @@ export default {
 					font-weight 600
 				.new_cart
 					padding-left 1.6rem
+			.itemCarts
+				display flex
+				justify-content space-between
+				align-items center
+				margin 0.2rem
+			.cart_item
+				width 5.2rem
+				height 1.48rem
+				border 0.02rem solid #ccc
+				border-radius 0.16rem
+				display flex
+				justify-content space-between
+				.item_left
+					width 30%;
+					line-height 1.48rem
+					text-align center
+				.item_right
+					flex 1
+					text-align center
+					line-height 0.74rem
+			.iconImg
+				display block
+				width 0.4rem
+				height 0.4rem
+				border-radius 50%
+				border 0.01rem solid #ccc
+			.color
+				display block
+				width 0.4rem
+				height 0.4rem
+				border-radius 50%
+				background #1989fa
+				border 0.01rem solid #ccc
+			.confirm_btn
+				width 80%
+				height 0.92rem
+				display block
+				background #333
+				color #fff
+				margin 0.4rem auto
+				border-radius  0.16rem
 			.hint_text
 				width 100%
 				height 0.76rem
@@ -586,6 +667,108 @@ export default {
 				border-radius 0.4rem
 				box-sizing border-box
 				ellipsis()
+				
+				.wt-radio {
+					ul {
+						background: #ffffff;
+						list-style: none;
+						padding: 0;
+						margin: 0;
+						position: relative;
+						li {
+							box-sizing: border-box;
+							position: relative;
+							text-align: left;
+							// line-height: 2rem;
+							// height: 2rem;
+							font-size: 0.8rem;
+							display: flex;
+							align-items: center;
+							&.disable {
+								background: #f6f6f6;
+							}
+							.item-inner {
+								width: 100%;
+								box-sizing: border-box;
+								white-space: nowrap;
+								// padding-right: 2rem;
+								text-overflow: ellipsis;
+								overflow: hidden;
+								padding-left: 8px;
+								&::after {
+									transform: scaleY(.5);
+									height: 1px;
+									content: '';
+									border-bottom: 1px solid #ccc;
+									display: block;
+								}
+								.title {
+									display: -webkit-box;
+									-webkit-line-clamp: 1;
+									overflow: hidden;
+									-webkit-box-orient: vertical;
+									white-space: normal;
+									margin: 0.2rem;
+									padding-right: 2rem;
+									&.normal {
+										padding-right: 0;
+									}
+								}
+								.subtitle {
+									display: -webkit-box;
+									-webkit-line-clamp: 2;
+									overflow: hidden;
+									-webkit-box-orient: vertical;
+									white-space: normal;
+									color: #999;
+									font-size: 0.7rem;
+									margin: 0.2rem;
+									padding-right: 2rem;
+									&.normal {
+										padding-right: 0;
+									}
+								}
+							}
+							p {
+								position: absolute;
+								right: 0.5rem;
+								color: #1BB5F1;
+								font-size: 1rem;
+								&.btn {
+									min-width: 1.2rem;
+									min-height: 1.2rem;
+									width: 1.2rem;
+									height: 1.2rem;
+									border-radius: 1.2rem;
+									border: 1px solid #ccc;
+									box-sizing: border-box;
+									overflow: hidden;
+									align-items: center;
+									margin: 0 0 0 0.5rem;
+									justify-content: center;
+									display: flex;
+									position: relative;
+									right: initial;
+									&.active {
+										border: 1px solid #1BB5F1;
+									}
+									&.disable {
+										background: #eee;
+									}
+								}
+							}
+							&::before {
+								font-size: 1rem;
+								position: absolute;
+								right: 8px;
+								line-height: 2rem;
+								color: #1BB5F1;
+								text-align: right;
+							}
+						}
+					}
+				}
+
 			.cart_center
 				height 4.36rem
 				margin-top 0.84rem
@@ -620,6 +803,12 @@ export default {
 					font-weight 600
 					color #000
 					line-height 0.44rem
+					.old_price
+						text-decoration line-through
+						color #ccc
+						font-weight 500
+				.privilege_pice
+					color red
 		.footer_pay
 			padding 0.32rem
 			.pay_text

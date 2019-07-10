@@ -92,6 +92,7 @@ export default {
 			.itemImg
 				width 100%
 		.itemText
+			width 4.2rem
 			display flex
 			justify-content center
 			flex-direction column
