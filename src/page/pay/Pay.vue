@@ -155,7 +155,9 @@ export default {
 			account:'',
 			score:'',
 			privilege:true,
-			oldPrice:true
+			oldPrice:true,
+			buttonStatus: true,
+      		stopTime: null
 
         }
     },
@@ -332,57 +334,67 @@ export default {
 		 },
 
 		 pay() {
-			 //1.判断是否选择收货地址
-			let addressInfo = '';
-			addressInfo = localStorage.getItem('addressInfo');
-			if(!addressInfo || addressInfo === 'null') {
-				this.openAddress();
-			}else{
-				let orderData = {};
-				addressInfo = JSON.parse(addressInfo);
-				this.address = {
-					username : addressInfo.userName ? addressInfo.userName : '戚金奎',
-					mobile : addressInfo.telNumber ? addressInfo.telNumber : '18310211825',
-					province: addressInfo.provinceName ? addressInfo.provinceName : '北京',
-					city: addressInfo.cityName ? addressInfo.cityName : '北京市',
-					area: addressInfo.countryName ? addressInfo.countryName : '丰台区',
-					address : addressInfo.detailInfo ? addressInfo.detailInfo : 'wonima',
-					// spare_name : addressInfo.
-				};
-
-				orderData.addressInfo = this.address;
-
-				if(utils.getUrlKey('now') === null) {
-					orderData.goodsInfo = this.$store.state.carList;
-					orderData.action = 'cart';
+			  if (this.buttonStatus) {
+				this.buttonStatus = false;
+				//1.判断是否选择收货地址
+				let addressInfo = '';
+				addressInfo = localStorage.getItem('addressInfo');
+				if(!addressInfo || addressInfo === 'null') {
+					this.openAddress();
 				}else{
-					orderData.goodsInfo = this.$store.state.nowlist;
-					orderData.action = 'detail';
+					let orderData = {};
+					addressInfo = JSON.parse(addressInfo);
+					this.address = {
+						username : addressInfo.userName ? addressInfo.userName : '戚金奎',
+						mobile : addressInfo.telNumber ? addressInfo.telNumber : '18310211825',
+						province: addressInfo.provinceName ? addressInfo.provinceName : '北京',
+						city: addressInfo.cityName ? addressInfo.cityName : '北京市',
+						area: addressInfo.countryName ? addressInfo.countryName : '丰台区',
+						address : addressInfo.detailInfo ? addressInfo.detailInfo : 'wonima',
+						// spare_name : addressInfo.
+					};
+
+					orderData.addressInfo = this.address;
+
+					if(utils.getUrlKey('now') === null) {
+						orderData.goodsInfo = this.$store.state.carList;
+						orderData.action = 'cart';
+					}else{
+						orderData.goodsInfo = this.$store.state.nowlist;
+						orderData.action = 'detail';
+					}
+
+					for(var i in orderData.goodsInfo) {
+						this.gnum += parseInt(orderData.goodsInfo[i]['num']);
+					}
+
+					orderData.id = utils.getUrlKey('oid');
+					orderData.total = this.totalPrice;
+					orderData.custom_id = utils.getUrlKey('custom_id') ? utils.getUrlKey('custom_id') : 26;
+
+					//计算商品数量
+					//获取支付选项
+					orderData.payOption = {
+						weipay: orderData.total-this.score,
+						score: 0,
+						num: this.gnum,
+						total: orderData.total,
+						type: 2,
+						gift_card:this.score,
+						gc_account:this.account
+					};
+					//验证配送区域
+					this.checkGoodsRegion(orderData);
 				}
-
-				for(var i in orderData.goodsInfo) {
-					this.gnum += parseInt(orderData.goodsInfo[i]['num']);
-				}
-
-				orderData.id = utils.getUrlKey('oid');
-				orderData.total = this.totalPrice;
-				orderData.custom_id = utils.getUrlKey('custom_id') ? utils.getUrlKey('custom_id') : 26;
-
-				//计算商品数量
-				//获取支付选项
-				orderData.payOption = {
-					weipay: orderData.total-this.score,
-					score: 0,
-					num: this.gnum,
-					total: orderData.total,
-					type: 2,
-					gift_card:this.score,
-					gc_account:this.account
-				};
-				//验证配送区域
-				this.checkGoodsRegion(orderData);
-			 }
+			  }
+			   this.setButton();
 		 },
+		 setButton() { //添加一个定时器，点击之后延时1s，防二次点击后台报错
+			clearTimeout(this.stopTime);
+			this.stopTime = setTimeout(() => {
+			this.buttonStatus = true
+			}, 1000)
+		},
 
 		checkGoodsRegion(orderData) {
 			this.$api.home.checkGoodsRegion({
