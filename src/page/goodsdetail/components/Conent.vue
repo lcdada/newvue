@@ -9,7 +9,7 @@
       <van-tabbar class="footer">
           <div  class="footer_btn">
               <button class="btn addcart"  @click="addCart(message)">加入购物车</button>
-              <button class="btn buynow" @click="buyNow(message)">立即兑换</button>
+              <button class="btn buynow" @click="buyNow(message)">立即购买</button>
           </div>
       </van-tabbar>
   </div>

@@ -97,6 +97,7 @@ export default {
 
 </script>
 <style lang='stylus' scoped>
+@import '../../../assets/styles/mixins.styl'
 	.top_title
 		display flex
 		flex-direction column
@@ -122,12 +123,15 @@ export default {
 			justify-content center
 			flex-direction column
 			align-items center
+			text-align center 
 			.text_1
 				font-size 0.28rem
 				color #000
 				font-weight 600
 			.text
+				width 4.2rem
 				line-height 0.4rem
+				ellipsis()
 	.goplay
 		width: 2.36rem;
 		height: 0.84rem;
