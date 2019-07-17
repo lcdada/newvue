@@ -29,8 +29,9 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
+    .Swiper_cont
+        height min-content
         .swiper_item_img
             width 100%
-            height 100%
             display block
 </style>
