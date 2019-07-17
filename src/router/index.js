@@ -9,6 +9,7 @@ import Address from '@/page/address/Address'
 import Pay from '@/page/pay/Pay'
 import Succeed from '@/page/succeed/Succeed'
 import Login from '@/page/login/Login'
+import utils from '@/utils/utils'
 
 Vue.use(Router)
 const router = new Router({
@@ -24,6 +25,12 @@ const router = new Router({
       }
     },
     {
+      redirect: to => {
+        let gid = utils.getUrlKey('goods_id');
+        window.location.href = 'http://www.lkvip.com/lancard_wechat/app/index.php?i=7&c=entry&webbefore=detail&webbefore_params=id&id='+gid+'&do=high_discount&m=high_discount#/detail?id='+gid;
+        // 方法接收 目标路由 作为参数
+        // return 重定向的 字符串路径/路径对象
+      },
       path:'/detail',
       name:'Detail',
       component:Detail,
