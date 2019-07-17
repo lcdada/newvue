@@ -153,7 +153,7 @@ export default {
 			chooseItem :{},
 			showText:true,
 			account:'',
-			score:'',
+			score:0,
 			privilege:true,
 			oldPrice:true
 
