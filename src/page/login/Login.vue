@@ -90,7 +90,7 @@ export default {
                         // 将用户token保存到vuex中
                         _this.changeLogin({ Authorization: _this.userToken });
                         _this.$router.push('/');
-                        alert('登陆成功');
+                        alert('登录成功');
                        this.seen_login = false;
                        this.codeTime = 60;
                        var codeTimeTimer =  setInterval(()=>{

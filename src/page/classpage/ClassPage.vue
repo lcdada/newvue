@@ -51,7 +51,7 @@ export default {
 		},
 		godetail(item){
 			let id = utils.getUrlKey('goods_class')
-			this.$router.push({path:'./detail',query:{goods_class:id,goods_id:item.id}})
+			this.$router.push({path:'./goodsdetail',query:{goods_class:id,goods_id:item.id}})
 		}
 	},
 	watch:{

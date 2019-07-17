@@ -9,6 +9,7 @@ import Address from '@/page/address/Address'
 import Pay from '@/page/pay/Pay'
 import Succeed from '@/page/succeed/Succeed'
 import Login from '@/page/login/Login'
+import GoodsDetail from '@/page/goodsdetail/GoodsDetail'
 
 Vue.use(Router)
 const router = new Router({
@@ -88,6 +89,10 @@ const router = new Router({
       meta:{
         title:'登陆'
       }
+    },{
+      path:'/goodsdetail',
+      name:'GoodsDetail',
+      component:GoodsDetail
     }
   ]
   
