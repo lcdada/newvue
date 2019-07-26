@@ -11,7 +11,7 @@
 			  <div class="item_text">
 				  	<p class="text_title">{{item.goods_name}}</p>
 				   	<p class="text_desc">{{item.class_name}}</p>
-					<p class="text_price">￥{{item.score}}</p>
+					<p class="text_price">{{item.score | currency}}</p>
 			  </div>
 		  </li>
 	  </ul>
@@ -20,6 +20,7 @@
 
 <script>
 import utils from '@/utils/utils'
+import {currency} from '@/utils/currency'
 export default {
 	name:'ClassPage',
 	data(){
@@ -28,6 +29,9 @@ export default {
 			goods_class:"",
 			PageTitle:''
 		}
+	},
+	filters:{
+		currency:currency
 	},
 	created(){
 		this.getGoddsList();

@@ -1,6 +1,9 @@
 <template>
     <div>
          <swiper :options="swiperOption" ref="mySwiper" class="Swiper_cont">
+              <swiper-slide>
+                  <video :src="message.video"></video>
+              </swiper-slide>
               <swiper-slide v-for="item in Spics" :key="item.id" class="swiper_item">
 						  <img :src="item" alt="" class="swiper_item_img">
               </swiper-slide>
@@ -13,7 +16,8 @@ import {Swipe, SwipeSlide } from 'vue-awesome-swiper'
 export default {
     name:'DetailBanner',
     props:{
-        Spics:Array
+        Spics:Array,
+        message:Object
     },
     components:{
         Swipe,

@@ -55,6 +55,9 @@ export default {
         }
 
     },
+    created(){
+        console.log(process.env.API_ROOT)
+    },
     methods:{
         getBlockMsg(){
              this.$api.home.block({
@@ -87,6 +90,8 @@ export default {
                 per_page:100
             }).then(params => {
                 if(params.data.code  == 1000){
+                    console.log(params);
+                    
                         const data_three = params.data.data.list
                         const text_three = params.data.data.list[0]
                         this.block_three = data_three

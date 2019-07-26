@@ -29,7 +29,7 @@
 					  <div class="itemText">
 						  <p class="text_1 text">{{item.title}}</p>
 						  <p class="text_2 text">{{item.desc}}</p>
-						  <p class="text_3 text">￥{{item.new_price}}</p>
+						  <p class="text_3 text">{{item.new_price | currency}}</p>
 					  </div>
 				  </div>
               </swiper-slide>
@@ -44,11 +44,15 @@
 <script>
 import 'swiper/dist/css/swiper.css'
 import {Swipe, SwipeSlide } from 'vue-awesome-swiper'
+import {currency} from '@/utils/currency'
 export default {
 	name:'Five',
 	props:{
 		five:Array,
 		fiveTitle:Object
+	},
+	filters:{
+		currency:currency
 	},
 	data(){
 		return{

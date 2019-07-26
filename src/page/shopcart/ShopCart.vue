@@ -11,7 +11,7 @@
                         <p class="goods_name">{{item.goods_name}}</p>
                         <p class= "goods_title">{{item.title}}</p>
                         <div class="footer_pn">
-                            <p class="goods_price">￥{{item.score}}</p>
+                            <p class="goods_price">{{item.score | currency}}</p>
                             <p class="goods_num"> x{{ item.num }}</p>
                         </div>
                     
@@ -25,7 +25,7 @@
         <div  class="footer_btn" v-if="!showCart">
             <div class="totalPrice">
                 <p class="total_text">总金额：</p>
-                <p class="total_text">￥{{totalPrice}}</p>
+                <p class="total_text">{{totalPrice | currency}}</p>
             </div>
             <button class="go_exchange" @click="goExchange">去结算</button>
 
@@ -45,6 +45,7 @@
 
 import {Icon,Popup,Toast} from 'vant'
 import utils from '@/utils/utils'
+import {currency} from '@/utils/currency'
 
 export default {
     name:'ShopCart',
@@ -53,6 +54,9 @@ export default {
             showCart:false
         }
     },
+    filters:{
+		currency:currency
+	},
     created(){
         if(this.count == 0){
             console.log(this.count)
