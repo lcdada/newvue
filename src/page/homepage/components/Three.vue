@@ -5,21 +5,6 @@
 		  <p class="title_s">{{title.banner_desc}}</p>
 	  </div>
 	  <div class="block_height">
-		  <!-- <van-swipe :width="210" :show-indicators="false" >
-			  <van-swipe-item v-for="item in three" :key="item.id" @click.stop>
-				  <div @click="gourl(item)">
-					  <div class=" item_img">
-						  <img :src="item.img" alt="" class="itemImg">
-					  </div>
-					  <div class="itemText">
-						  <p class="text_1 text">{{item.title}}</p>
-						  <p class="text_2 text">{{item.desc}}</p>
-						  <p class="text_3 text">￥{{item.new_price}}</p>
-					  </div>
-				  </div>
-			  </van-swipe-item>
-			  
-		  </van-swipe> -->
 		  <swiper :options="swiperOption" ref="mySwiper">
             <!-- slides -->
               <swiper-slide v-for="item in three" :key="item.id" @click.stop>
@@ -30,7 +15,7 @@
 					  <div class="itemText">
 						  <p class="text_1 text">{{item.title}}</p>
 						  <p class="text_2 text">{{item.desc}}</p>
-						  <p class="text_3 text">￥{{item.new_price}}</p>
+						  <p class="text_3 text">{{item.new_price | currency}}</p>
 					  </div>
 				  </div>
               </swiper-slide>
@@ -49,11 +34,15 @@ import 'swiper/dist/css/swiper.css'
 import {Swipe, SwipeSlide } from 'vue-awesome-swiper'
 import {  Tabbar, Toast  } from 'vant';
 import utils from '@/utils/utils'
+import {currency} from '@/utils/currency'
 export default {
 	name:'Three',
 	props:{
 		three:Array,
 		title:Object
+	},
+	filters:{
+		currency:currency
 	},
 	data(){
 		return{
