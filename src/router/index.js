@@ -29,7 +29,7 @@ const router = new Router({
     {
       redirect: to => {
         let gid = utils.getUrlKey('goods_id');
-        window.location.href = 'http://www.lkvip.com/lancard_wechat/app/index.php?i=7&c=entry&webbefore=detail&webbefore_params=id&id='+gid+'&do=high_discount&m=high_discount#/detail?id='+gid;
+        window.location.href = 'http://www.lkvip.com/lancard_wechat/app/index.php?i=7&c=entry&source=goods_qrcode&webbefore=detail&webbefore_params=id&id='+gid+'&do=high_discount&m=high_discount#/detail?id='+gid;
         // 方法接收 目标路由 作为参数
         // return 重定向的 字符串路径/路径对象
       },
